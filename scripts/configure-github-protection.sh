@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Configures main branch protection for the existing private GitHub repository.
+# Configures main branch protection for the existing GitHub repository.
 # Requires an authenticated GitHub CLI with admin permission.
-# This script refuses to run while the repository is public.
+# Public visibility is explicitly authorized by the user; private data is still forbidden.
 set -euo pipefail
 
 REPO="${REPO:-Zephyr-Dawn/Highschool-physics}"
@@ -18,8 +18,7 @@ fi
 
 PRIVATE="$(gh repo view "$REPO" --json isPrivate --jq '.isPrivate')"
 if [ "$PRIVATE" != "true" ]; then
-  echo "REFUSING: $REPO is not private. Change repository visibility with owner approval first." >&2
-  exit 3
+  echo "NOTE: $REPO is public; public visibility is authorized, but private/teacher/student data remains forbidden." >&2
 fi
 
 gh api \

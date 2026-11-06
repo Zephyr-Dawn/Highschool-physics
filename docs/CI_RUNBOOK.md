@@ -2,7 +2,7 @@
 
 日期：2026-11-06  
 工作流：`.github/workflows/ci.yml`  
-当前状态：**CI_NOT_RUN**（尚无 GitHub 授权/推送，不能声称 GitHub Actions 已通过）。
+当前状态：**CI_PENDING**（public 推送已获用户授权；以实际 GitHub Actions run 为准）。
 
 ## 1. 触发条件
 
@@ -89,7 +89,7 @@ npm run test:pwa
 REPO=Zephyr-Dawn/Highschool-physics bash scripts/configure-github-protection.sh
 ```
 
-脚本拒绝在仓库仍为 public 时执行。要求 `main` 的 `verify` 检查通过、至少 1 个审批、禁止 force push/删除、管理员也受保护。
+脚本允许用户已授权的 public 仓库，但会打印公开数据边界提示。要求 `main` 的 `verify` 检查通过、至少 1 个审批、禁止 force push/删除、管理员也受保护。
 
 如果 `gh` 未安装，使用 `winget install --id GitHub.cli --source winget` 或从 GitHub 官网下载；不需要把 token 粘贴到聊天。先完成浏览器登录/组织授权，再由用户确认仓库私有。
 
@@ -105,6 +105,5 @@ REPO=Zephyr-Dawn/Highschool-physics bash scripts/configure-github-protection.sh
 
 ## 7. 当前未完成
 
-- 仓库在检查时仍是 public 且为空；未得到改为私有的授权，未执行 push。
-- 因此无 GitHub Actions run、无远端 branch protection 配置、无 CI URL。
-- 这些均属于 `BLOCKED: GITHUB_AUTH_OR_PRIVATE_VISIBILITY`，不是测试失败。
+- 用户已授权 public 推送；仍需实际远端 SHA、Actions run URL 与分支保护执行证据。
+- 在没有实际 run URL 前，`CI_VERIFIED` 保持未完成；`public` 不改变“不提交私有数据”的边界。

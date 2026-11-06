@@ -9,10 +9,10 @@
 - GitHub 仓库：`https://github.com/Zephyr-Dawn/Highschool-physics`
 - 稳定分支：`main`（只通过审查 PR 合并）
 - AI Studio 工作分支：`ai-studio-dev`
-- 当前本地 Git 初始化和推送状态见 [docs/GITHUB_HANDOFF_BASELINE.md](docs/GITHUB_HANDOFF_BASELINE.md)。
+- 当前本地/远端 Git、分支 SHA 与 CI 状态见 [docs/GITHUB_HANDOFF_BASELINE.md](docs/GITHUB_HANDOFF_BASELINE.md)。
 - **推送守卫**：如果 AI Studio 界面没有明确显示并允许选择 `ai-studio-dev`，不要点击 GitHub Sync/Push。只用 Sandbox 编辑 + `Download app / ZIP`，把变更交给 Codex 在 `ai-studio-dev` 上审查、测试、提交。严禁直接推 `main`，严禁 force push。
 
-> 远端仓库目前由用户控制；在确认它是私有仓库并获得授权前，不应把项目推送上去。
+> 用户已明确授权使用 public 代码仓库；仓库只含审计通过的源代码、原创内容与脱敏文档。教师私有草稿、学生数据和凭据绝不提交。
 
 ## 2. 三条启动命令
 

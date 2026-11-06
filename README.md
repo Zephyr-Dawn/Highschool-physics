@@ -34,7 +34,7 @@ Round 17 新增两条并行交付：
 - 稳定分支：`main`；AI Studio 工作分支：`ai-studio-dev`。禁止直接推送 `main`，禁止 force push。
 - AI Studio 必须先读根目录 [AI_STUDIO_HANDOFF.md](AI_STUDIO_HANDOFF.md)，再读 [docs/AI_STUDIO_FULL_PROMPT.md](docs/AI_STUDIO_FULL_PROMPT.md) 与 [docs/AI_STUDIO_SCOPE_AND_CONTRACT.md](docs/AI_STUDIO_SCOPE_AND_CONTRACT.md)。
 - 分支同步守卫、ZIP fallback、PR/CI/回滚见 [docs/GIT_WORKFLOW.md](docs/GIT_WORKFLOW.md)；CI 与环境排障见 [docs/CI_RUNBOOK.md](docs/CI_RUNBOOK.md)；发布与真机清单见 [docs/RELEASE_CHECKLIST.md](docs/RELEASE_CHECKLIST.md)。
-- 当前远端在检查时为 public 且为空；在没有确认私有化与授权前，不执行任何 push。
+- 用户于 2026-11-06 明确授权使用该 public 仓库；只提交经过审计的源代码、原创内容与脱敏文档，不提交教师/学生私有数据或凭据。
 
 ## 当前真实状态（2026-11-05）
 

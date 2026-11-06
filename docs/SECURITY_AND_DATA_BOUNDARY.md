@@ -1,13 +1,13 @@
 # 安全与数据边界（GitHub / AI Studio）
 
 日期：2026-11-06  
-适用仓库：`Zephyr-Dawn/Highschool-physics`（当前远端可见性为 public、空仓库；迁移前必须由用户确认/改为 private）。
+适用仓库：`Zephyr-Dawn/Highschool-physics`。用户于 2026-11-06 明确授权使用**public**代码仓库；仓库只允许包含经过审计的源代码、文档、原创内容与脱敏截图，绝不包含凭据、教师私有题包、学生数据或未授权真题。
 
 ## 1. 数据分层
 
 | 层 | 示例 | 存储位置 | 是否进入 Git |
 |---|---|---|---|
-| 公共源代码与原创内容 | `src/**`、`tests/**`、原创题面/解析、公开文档、模拟截图 | 本仓库 | 是 |
+| 公共源代码与原创内容 | `src/**`、`tests/**`、原创题面/解析、公开文档、模拟截图 | 本 public 仓库 | 是（已按秘密扫描审计） |
 | 构建与测试产物 | `dist/`、`test-results/`、Playwright trace、`.local-evidence/` | 本机/CI 临时目录 | 否（`.gitignore`） |
 | 浏览器私有数据 | 模型场景、132 题进度、案例进度、教师私有草稿 `emplab.teacher-problems.v1`、设备诊断 | 用户浏览器 `localStorage` | **绝不** |
 | 授权材料 | 原卷、图片、商业题库、教师个人资料 | 用户设备/授权平台 | 未经书面授权**绝不** |
@@ -41,8 +41,8 @@
 
 ## 5. 仓库与授权
 
-- 当前远端为 `Zephyr-Dawn/Highschool-physics`，本轮检查时 `private=false`、`size=0`。在用户确认将其改为私有之前，不执行任何 push。
-- 推荐访问控制：仅仓库所有者/必要协作者；AI Studio 连接时使用最小权限 GitHub App；不给 AI Studio 提供 `main` 直接写权限。
+- 当前远端为 `Zephyr-Dawn/Highschool-physics`；用户已明确授权 public 推送。任何私有/未授权数据仍不得进入仓库。
+- public 仓库意味着源代码和原创题面/解析公开可读；教师私有草稿、学生数据、凭据与未授权原卷必须继续留在本机或私有平台。AI Studio 使用最小权限 GitHub App，不提供 `main` 直接写权限。
 - 不得在聊天、提交、issue、CI 日志中粘贴 GitHub token、Netlify token 或 Gemini key。若凭据曾出现在外部渠道，应立即撤销并重新生成。
 - 分支保护至少要求：禁止直接 push `main`、CI `verify` 通过、至少 1 个 reviewer、禁止 force push/删除 `main`。
 - AI Studio 若无明确 `ai-studio-dev` 分支目标显示，只能导出 ZIP 由 Codex 审查提交；禁止点击 Sync/Push。
