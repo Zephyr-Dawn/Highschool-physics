@@ -47,10 +47,11 @@ jobs:
       - name: Install Playwright browser
         run: npx playwright install --with-deps chrome
 
-      - name: Browser regression and PWA offline tests
-        run: |
-          npx playwright test
-          npm run test:pwa
+      - name: Browser regression
+        run: npx playwright test --reporter=list,github
+
+      - name: PWA build and offline tests
+        run: npm run test:pwa -- --reporter=list,github
 
       - name: Upload failure diagnostics
         if: failure()
