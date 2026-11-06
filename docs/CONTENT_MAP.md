@@ -341,7 +341,7 @@
 - C01–C08 与 A17-01 可复制为本机私有草稿；内置原文不变。
 - 草稿存 `emplab.teacher-problems.v1`；可显式导出/导入 JSON；不进入构建、PWA precache、日志或诊断。
 - 教师文本、答案与来源/权利标注安全处理；物理验证与来源核验、转载授权相互独立。
-- 新增文件与限制见 `ROUND17_PROBLEM_AUTHORING_SPEC.md`、`ROUND17_COMPOSITE_PHYSICS_PROOF.md`。
+- 新增文件与限制见 [PROBLEM_AUTHORING_SPEC.md](PROBLEM_AUTHORING_SPEC.md)、[COMPOSITE_PHYSICS_PROOF.md](COMPOSITE_PHYSICS_PROOF.md)。
 
 ## 3. 真题索引（均未在线复核）
 
@@ -371,8 +371,8 @@
 - 分步填空、完整解答题、教师人工评分；
 - 真实试卷题干/图片的授权录入与完整答案核验（当前 5 条均为未核验外链）；
 - P08 已完成独立约束/反求模型，I07 已完成反向磁区线框与挡板，I08 已完成交流发电机；
-- 统一学习路线、模型精确练习筛选与 16 模型覆盖审计见 `docs/ROUND14_MODEL_COVERAGE_AUDIT.md`；
-- Round 15/16/17 已完成 9 个原创整题案例（含 A17-01）、教师题目工作台、设备检测与静态部署包；外部 HTTPS 发布 BLOCKED，真实平板 NOT_TESTED；
+- 统一学习路线、模型精确练习筛选与 16 模型覆盖见 [MODEL_COMPLETION_MATRIX.md](MODEL_COMPLETION_MATRIX.md)；
+- 已完成 9 个原创整题案例（含 A17-01）、教师题目工作台、设备检测与静态部署包；正式 HTTPS 站点已上线，iPad Safari 基本打开/安装完成，完整平板专项与 Android 仍未测试；
 - 任意求解器的自由组合、公开题库/云同步与图片附件；当前只开放 A17-01/A17-02 新建与内置案例复制；
 - 手写批注。
 

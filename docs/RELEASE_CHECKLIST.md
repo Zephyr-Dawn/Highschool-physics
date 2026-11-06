@@ -1,24 +1,24 @@
 # 发布检查清单
 
 日期：2026-11-06  
-适用：`main` 的静态 PWA；AI Studio 修改必须经 `ai-studio-dev` PR 与 CI 后才能进入发布。
+适用：`main` 的公开静态 PWA（<https://soft-toffee-cbd208.netlify.app/>）。所有修改经 `codex/<task>` 分支、PR、CI 与代码审查后合并；不直接 push `main`，不强制推送。
 
 ## 1. 状态标签
 
-`LOCAL_BASELINE_VERIFIED` / `GITHUB_PUSHED` / `AI_STUDIO_BRANCH_READY` / `CI_VERIFIED` / `AI_STUDIO_IMPORT_VERIFIED` / `STAGING_DEPLOYED` / `NATIVE_BUILD_VERIFIED` / `REAL_TABLET_VERIFIED`；无证据写 `BLOCKED` 或 `NOT_TESTED`。
+`LOCAL_BASELINE_VERIFIED` / `CI_VERIFIED` / `STAGING_DEPLOYED` / `DEVICE_VERIFIED` / `NATIVE_BUILD_VERIFIED` / `STORE_PUBLISHED`；无证据写 `BLOCKED` 或 `NOT_TESTED`。
 
-当前（Round 18）：**Web `CODE_READY`**（本地 607/183/3、verify:static、CSP smoke、PWA upgrade simulation 通过）；`STAGING_DEPLOYED=BLOCKED`、`DEVICE_VERIFIED=NOT_TESTED`、`NATIVE_BUILD_VERIFIED=BLOCKED`。用户已备份到 GitHub，但本轮**不执行 git 操作**；Git/CI/AI Studio 状态以用户实际仓库为准。
+当前（2026-11-06）：**正式站点 `LIVE`**（匿名 HTTPS 访问与安全头已复查）；`release-manifest.json` 待下次部署；`DEVICE_VERIFIED` 仅 iPad Safari 基本打开/安装；Android 与完整专项 `NOT_TESTED`；真实双版本升级与原生构建 `BLOCKED`。
 
 ## 2. 代码与 CI
 
-- [ ] `main` 与 `ai-studio-dev` 同基线 SHA；无直接 push main。
+- [ ] 从最新 `main` 创建 `codex/<task>` 分支；无直接 push main，无 force push。
 - [ ] PR 分支保护已启用，`verify` 检查必需。
 - [ ] `npm run typecheck` 通过。
-- [ ] `npx vitest run` 607/607（以当次实际为准）。
+- [ ] `npx vitest run` 610/610（以当次实际为准）。
 - [ ] `npx playwright test` 183/183（SIMULATED）。
 - [ ] `npm run test:pwa` 3/3。
-- [ ] `npm run build` 通过。
-- [ ] `npm run verify:static` 通过并生成 schemaVersion 2 `release-manifest.json`（buildId + SHA-256 + secret/私有文件扫描）。
+- [ ] `npm run build` 通过；`postbuild` 生成 schemaVersion 2 `release-manifest.json`（buildId + SHA-256 + secret/私有文件扫描）。
+- [ ] `npm run verify:static` 通过。
 - [ ] `npm run smoke:headers` 通过（CSP/安全头下首页/A17/教师页）。
 - [ ] `npm run simulate:upgrade` 通过（本地 SIMULATED，非线上升级）。
 - [ ] 安全扫描无高置信度凭据；没有未授权真题内容。
@@ -26,7 +26,7 @@
 
 ## 3. 静态发布
 
-- [ ] 明确托管平台、站点权限、默认分支与发布目录；未经授权不发布。
+- [ ] 托管平台确认为 Netlify；默认分支 `main`，发布目录 `dist`；不改动站点权限或生产设置。
 - [ ] `netlify.toml`/`public/_headers` 与平台等价回退配置正确。
 - [ ] HTTPS 证书有效；`sw.js` 为 `no-cache`；manifest/icons 200。
 - [ ] `/#/`、`/#/cases`、`/#/cases/case-a17-electric-magnetic-screen`、`/#/teacher/problems`、`/#/device-check`、`/#/path` 直接打开/刷新正常。
@@ -45,8 +45,8 @@
 
 ## 5. 真实设备
 
-- [ ] iPadOS Safari 清单（`docs/device-test-packages/ipados-safari-round17.md`）逐项记录。
-- [ ] Android Chrome 清单（`docs/device-test-packages/android-chrome-round17.md`）逐项记录。
+- [ ] iPadOS Safari 清单（`docs/device-test-packages/ipados-safari.md`）逐项记录。
+- [ ] Android Chrome 清单（`docs/device-test-packages/android-chrome.md`）逐项记录。
 - [ ] 15 分钟暖机记录发热/耗电/崩溃/输入延迟；无精确温度/电池数据时不编造。
 - [ ] CDP/Playwright/模拟器只标 `SIMULATED`，不能计入真机 PASS。
 

@@ -1,10 +1,10 @@
-# 课堂平板设备 QA 与诊断（Round 15/18）
+# 课堂平板设备 QA 与诊断
 
-> Round 18 的最新真机验收清单与运行时平台字段见 [ROUND18_DEVICE_ACCEPTANCE.md](ROUND18_DEVICE_ACCEPTANCE.md)。
+> 正式地址：<https://soft-toffee-cbd208.netlify.app/>。真机验收清单见 [DEVICE_ACCEPTANCE.md](DEVICE_ACCEPTANCE.md)，发布状态见 [DEVICE_RELEASE_MATRIX.md](DEVICE_RELEASE_MATRIX.md)。
 
 ## 1. 原则
 
-- 真实设备结果是唯一能标记 `PASS` / `FAIL` 的依据；当前 iPadOS Safari、Android Chrome 均为 **NOT_TESTED**。
+- 真实设备结果是唯一能标记 `PASS` / `FAIL` 的依据。iPadOS Safari 已完成基本打开与添加到主屏幕；其余 iPad 专项与 Android Chrome 均为 **NOT_TESTED**。
 - Playwright、CDP 触摸、无头 Chrome、桌面浏览器结果一律标记 **SIMULATED**，不得写成“真机通过”。
 - 本工具是学习工具，不是监考系统；诊断报告不得包含题目答案、个人场景、学习进度或身份信息。
 - 每台设备单独记录，不用一台设备的结论代表平台结论。
@@ -33,7 +33,7 @@
 
 | 设备 | 浏览器 | 安装/PWA | 离线 | 更新保数据 | 状态 |
 | --- | --- | --- | --- | --- | --- |
-| iPad（任一在售型号） | iPadOS Safari | — | — | — | NOT_TESTED |
+| iPad（任一在售型号） | iPadOS Safari | 基本安装 PASS；其余专项 NOT_TESTED | NOT_TESTED | NOT_TESTED | PARTIAL |
 | Android 平板 | Chrome | — | — | — | NOT_TESTED |
 | 桌面 Chrome（开发参考） | Chrome | — | — | — | SIMULATED |
 | 桌面 Safari（开发参考） | Safari | — | — | — | NOT_TESTED |
@@ -81,7 +81,8 @@
 ## 6. 当前结论边界
 
 - 自动化测试中的触控、键盘与探针结果均为 `SIMULATED`，只证明代码路径，不证明硬件体验。
-- 未经真实 HTTPS 部署，无法验证 PWA 安装、真实离线首启与线上更新；相应项目保持 `BLOCKED` 或 `NOT_TESTED`。
+- 正式 HTTPS 站点已上线；iPad Safari 基本打开与安装已完成，但真实离线首启、更新保数据与完整专项仍未验证。
+- Android、真实双版本升级和原生包保持 `NOT_TESTED` / `BLOCKED`。
 - 不得声称未实测的 60 fps、发热改善或系统级稳定性。
 
 ## 7. Round 17 追加（2026-11-05）
@@ -90,5 +91,5 @@
 - 自动浏览器默认 `navigator.webdriver=true`，报告必须标记 `simulated`，不得计入真机 PASS。
 - 新增人工项：教师自建题本机创建/编辑/预览、PWA 更新保留旧数据。
 - 报告继续不包含教师题干/答案、学生答案、场景 JSON 或账号/位置信息。
-- 真机 iPadOS Safari / Android Chrome 仍全部 `NOT_TESTED`。执行脚本与状态矩阵见 `ROUND17_DEVICE_RELEASE_MATRIX.md`。
+- iPadOS Safari 基本打开/安装为 `PASS`，完整专项与 Android Chrome 仍 `NOT_TESTED`。执行脚本与状态矩阵见 [DEVICE_RELEASE_MATRIX.md](DEVICE_RELEASE_MATRIX.md)。
 - 教师工作台平板验收重点：`/#/teacher/problems` 模板卡片、编辑器表单、标准值数学输入（如 `√3/2`）、逐问答案绑定、预览变式滑块、软键盘弹起时的保存/预览按钮、横竖屏无横向溢出。自动化仅证明 DOM 路径，不证明真实软键盘/Safari 行为。

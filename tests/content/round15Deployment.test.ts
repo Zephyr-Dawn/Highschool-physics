@@ -41,10 +41,11 @@ describe('Round 15 deployment and source safeguards', () => {
     }
   });
 
-  it('does not claim a public deployment URL in deployment docs', () => {
+  it('keeps deployment docs aligned with the live public site', () => {
     const deployment = readFileSync(join(root, 'docs', 'DEPLOYMENT_STAGING.md'), 'utf8');
-    expect(deployment).toContain('BLOCKED');
+    expect(deployment).toContain('https://soft-toffee-cbd208.netlify.app/');
     expect(deployment).toContain('npm run verify:static');
-    expect(deployment).not.toMatch(/https:\/\/[a-z0-9-]+\.netlify\.app/i);
+    expect(deployment).toContain('release-manifest.json');
+    expect(deployment).not.toContain('BLOCKED: hosting authorization unavailable');
   });
 });

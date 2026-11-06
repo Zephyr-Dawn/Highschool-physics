@@ -1175,4 +1175,4 @@ W_drive = Q_L + Q_r
 - C：`tC=2/3 s`，屏幕 `y=4√3/3−3/2≈0.8094010768 m`，总时间 `√3−1+π/6+2/3≈1.9223162498 s`。
 - 连续交接 A→B、B→C 的位置/速度/全局时间误差门槛 1e-9；本轮实测均为 0。
 - 无边界到达/磁场无出场/未命中/屏幕越界时不得生成下一阶段或有效光斑。
-- 详细证明见 `ROUND17_COMPOSITE_PHYSICS_PROOF.md`。
+- 详细证明见 [COMPOSITE_PHYSICS_PROOF.md](COMPOSITE_PHYSICS_PROOF.md)。

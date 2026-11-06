@@ -60,6 +60,6 @@ type MatchLevel = 'exact_model' | 'partial_stage' | 'concept_illustration' | 'un
 - `wholeProblem: WholeProblemScenario`：`adapterId`、`coverage`、`originDescription`、`physicalStages`、`teacherAnnotations`、≥2 `variations`。
 - `answerSpec.dependsOn` 必须引用 `wholeProblem.variations[].parameterKey`；参数变化时 `caseAnswerCheck` 读取当前求解器答案，无唯一值返回 `needs_review`。
 - `coverage` 取 `full_problem_simulated | partial_stage | concept_illustration | unsupported`；没有同舞台/统一时钟/连续状态时不得标 FULL。
-- 适配器白名单：`p04-boundary`、`p05-multizone`、`p07-beamline`、`i03-loop-entry`、`i05-loop-field`、`i06-dual-rod`、`i07-opposite-wall`、`a17-electric-magnetic-screen`；不得从 URL/JSON 接受代码或模块名。教师私有草稿使用独立的 `emplab.teacher-problem.v1` schema，编译后才进入整题运行时，详见 `ROUND17_PROBLEM_AUTHORING_SPEC.md`。
+- 适配器白名单：`p04-boundary`、`p05-multizone`、`p07-beamline`、`i03-loop-entry`、`i05-loop-field`、`i06-dual-rod`、`i07-opposite-wall`、`a17-electric-magnetic-screen`；不得从 URL/JSON 接受代码或模块名。教师私有草稿使用独立的 `emplab.teacher-problem.v1` schema，编译后才进入整题运行时，详见 [PROBLEM_AUTHORING_SPEC.md](PROBLEM_AUTHORING_SPEC.md)。
 - 逐问进度写入 `emplab.cases.progress.v1` 的可选 `parts` 字段；`?part=a|b|c` 是白名单深链。
 - 旧 `stages[]` 仍保留为基础模型对照/场景备份入口，不作为整题连续仿真的证明。

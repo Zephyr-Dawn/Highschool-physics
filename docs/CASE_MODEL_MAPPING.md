@@ -40,4 +40,4 @@
 
 旧 C06 的 `0.375 J` 保留为 B=0、宽 0.5 m、碰前 1 m/s 的**分阶段控制实验**，不并入连续主场景。
 
-A17-01 使用新增白名单复合适配器；详细独立解析与交接误差见 `ROUND17_COMPOSITE_PHYSICS_PROOF.md`。A17-02 为教师私有模板，使用 I07 连续事件，不增加公开案例计数。C02 的旧 `p05-cross-not-simultaneous` 只作为“轨迹交叉≠同刻相遇”的补充概念图，不用于整题答案。
+A17-01 使用新增白名单复合适配器；详细独立解析与交接误差见 [COMPOSITE_PHYSICS_PROOF.md](COMPOSITE_PHYSICS_PROOF.md)。A17-02 为教师私有模板，使用 I07 连续事件，不增加公开案例计数。C02 的旧 `p05-cross-not-simultaneous` 只作为“轨迹交叉≠同刻相遇”的补充概念图，不用于整题答案。

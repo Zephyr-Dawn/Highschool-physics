@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 /*
- * Explicit staging smoke check. Requires a real HTTPS URL supplied by the operator.
- * Never insert a default URL here: a missing URL means BLOCKED, not a fabricated site.
+ * Explicit deployment smoke check. Requires a real HTTPS URL supplied by the operator.
+ * Never insert a default URL here: the official site is passed in by the maintainer.
  */
 const rawUrl = process.argv[2] ?? '';
 if (!rawUrl) {
   console.error('Usage: npm run smoke:staging -- https://your-real-staging.example');
-  console.error('No URL is hardcoded. Without operator authorization and a real HTTPS URL, STAGING_DEPLOYED remains BLOCKED.');
+  console.error('No URL is hardcoded. Pass the official HTTPS URL or a local production preview URL.');
   process.exit(2);
 }
 

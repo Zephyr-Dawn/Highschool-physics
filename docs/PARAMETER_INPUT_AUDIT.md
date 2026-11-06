@@ -241,7 +241,7 @@
   - 表达式输入 `data-testid="<testId>-expression"`（仅在传入 `testId` 时）；
   - 状态行 `data-testid="<testId>-status"`；
   - 超范围说明 `data-testid="<testId>-overflow"`。
-- 新增截图：`docs/screenshots/math-*.png`（分数/根式、π、超范围、错误、P01 3D、P07 多粒子、I01/I04 手动目标、横竖屏）；I05/I06 截图见 `i05-*.png` / `i06-*.png`。
+- 当轮截图（`math-*`、`i05-*`、`i06-*` 等）属于历史 QA 证据，已移出 Git 跟踪并保存在仓库外私人归档；公开仓库只保留 `docs/screenshots/product-*.png` 三张产品展示图。
 
 ## 6. 例外与限制
 

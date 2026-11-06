@@ -121,7 +121,7 @@ try {
   console.log('PWA_UPGRADE_SIMULATED_PASS');
   console.log('source=simulated-local-build-a-to-build-b');
   console.log(`keys-preserved=${Object.keys(keys).join(',')}`);
-  console.log('note=not a real HTTPS staging upgrade; real staging remains BLOCKED without hosting authorization');
+  console.log('note=simulated local upgrade only; no controlled two-version production rollout was executed');
 } catch (error) {
   failed = true;
   console.error(`PWA_UPGRADE_SIMULATED_FAIL: ${error instanceof Error ? error.message : String(error)}`);
