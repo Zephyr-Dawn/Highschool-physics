@@ -1,0 +1,43 @@
+# dependencies
+node_modules/
+
+# build output and caches
+dist/
+build/
+coverage/
+.vite/
+*.tsbuildinfo
+
+# test and browser artifacts (keep committed documentation screenshots)
+test-results/
+playwright-report/
+blob-report/
+.local-evidence/
+
+# local/private environment files
+.env
+.env.*
+!.env.example
+*.local
+
+# signing and credential material
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.mobileprovision
+*secret*
+*credential*
+
+# local/private teacher exports and device reports
+teacher-private/
+private-exports/
+device-reports/
+*.teacher-problem.json
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+*.log

@@ -1,0 +1,44 @@
+{
+  "name": "em-physics-lab",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "typecheck": "tsc -b --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:tablet": "playwright test",
+    "icons": "node scripts/generate-icons.mjs",
+    "test:pwa": "npm run build && playwright test -c playwright.pwa.config.ts",
+    "preview:staging": "vite preview --host 0.0.0.0 --port 4174 --strictPort",
+    "verify:static": "npm run build && node scripts/check-static-build.mjs"
+  },
+  "dependencies": {
+    "@react-three/fiber": "^9.8.2",
+    "katex": "^0.16.22",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-router-dom": "^7.9.4",
+    "three": "^0.187.0",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
+    "@types/katex": "^0.16.7",
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.1.16",
+    "@types/react-dom": "^19.1.9",
+    "@types/three": "^0.187.0",
+    "@vitejs/plugin-react": "^5.0.4",
+    "jsdom": "^27.0.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.9",
+    "vite-plugin-pwa": "^1.1.0",
+    "vitest": "^3.2.4"
+  }
+}
