@@ -36,7 +36,7 @@
 
 ## 4. PWA 更新与数据
 
-- [ ] 用两个实际版本验证 `autoUpdate`/刷新流程（未部署前为 `BLOCKED`）。
+- [ ] 用两个受控实际版本验证 `autoUpdate`/刷新流程（未完成两版本线上发布前为 `BLOCKED`）。
 - [ ] 更新不调用 `localStorage.clear()`、不清所有缓存。
 - [ ] 旧场景键、`emplab.progress.v1`、`emplab.cases.progress.v1`、`emplab.teacher-problems.v1` 保留。
 - [ ] 教师草稿不进入构建、precache、日志或诊断。

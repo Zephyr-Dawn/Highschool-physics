@@ -128,7 +128,7 @@ npm run smoke:staging -- https://soft-toffee-cbd208.netlify.app
 
 - `PASS`：该设备、系统、浏览器版本、日期、操作下实际完成。
 - `FAIL`：可复现失败，记录步骤、截图、导出 JSON。
-- `BLOCKED`：无设备、无 HTTPS 授权、无法安装等外部阻碍。
+- `BLOCKED`：无设备、原生工具链缺失、无法执行受控两版本发布等外部阻碍。
 - `N/A`：该设备/场景不适用，写明原因。
 - 未执行必须保持 `NOT_TESTED`。
 - 自动 Playwright / 无头 Chrome / CDP 合成触摸只属于 `SIMULATED`，不能汇总进真机 PASS 计数。
