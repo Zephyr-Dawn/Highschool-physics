@@ -41,3 +41,10 @@ device-reports/
 .DS_Store
 Thumbs.db
 *.log
+
+# local archives and native build artifacts
+*.zip
+*.tar.gz
+*.apk
+*.aab
+*.ipa
