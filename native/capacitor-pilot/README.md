@@ -1,4 +1,4 @@
-# Capacitor Native Pilot（Round 18）
+# Capacitor Native Pilot
 
 **状态：`CAPACITOR_CONFIG_READY`；`ANDROID_DEBUG_BUILT = BLOCKED`；`IOS_DEV_BUILD = BLOCKED`。**
 
@@ -24,7 +24,7 @@
 
 ```bash
 # 1. 根仓库生成已验证 Web 构建
-cd H:/programming/EM_Physics_Lab
+cd <仓库根目录>
 npm ci
 npm run typecheck
 npx vitest run

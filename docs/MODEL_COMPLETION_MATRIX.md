@@ -50,7 +50,7 @@
 - 当前 COMPLETE：16 个；PARTIAL：无；MISSING：无；OPTIONAL/PLANNED：无原始编号。
 - 当前原创题：**132 道**；P02–P08/I01/I02/I05/I06/I07/I08 各 8 道（P01 14、I03 6、I04 8）。
 - 当前题目案例：**9 个原创案例**（Round 15/16/17，C01–C08 + A17-01），单独计数，不并入 132 题；教师私有草稿单独计数，不计入公开题库。
-- Round 18 最终回归：Vitest **607/607**（57 文件）、Playwright **183/183**（SIMULATED）、PWA **3/3**、`verify:static` 通过；Round 17/18 见 [ROUND17_QA.md](ROUND17_QA.md) 与 [ROUND18_QA.md](ROUND18_QA.md)。
+- 最新回归数字以 [QA.md](QA.md) 为准：Vitest **610/610**（58 文件）、Playwright **183/183**（SIMULATED）、PWA **3/3**、`verify:static` 通过。
 - Round 11.5（2026-11-03）建立通用数学表达式输入；Round 12/13/14 将其继续用于 I05/I06/I07/P08/I08。当前全仓库 **197 个 `<ParamSlider>` 调用点**、运行时最多 208 个控件，逐项清单见 [PARAMETER_INPUT_AUDIT.md](PARAMETER_INPUT_AUDIT.md)。表达式层不改变任何模型的 COMPLETE 判定与物理公式。
 - 测试基线以 [QA.md](QA.md) 为准；本矩阵不把 CDP 合成触摸、无头 Chrome 或 PWA 模拟称为真实 iPad/Android 验证。
 - 所有状态都可从 `src/simulations/registry.ts`、`src/content/questions.ts`、对应纯物理模块和测试文件追溯。
@@ -61,7 +61,7 @@
 - 覆盖率测试 `tests/content/learningPath.test.ts` 检查：16 个唯一 ID、16 条唯一路由、每个路径步骤的预设存在、每个模型有讲解与非零题数、演示路线全部引用真实模型/预设。
 - `PracticePage` 新增 `?model=` 模型筛选；路线“配套练习”只显示该模型题目，清除模型筛选后恢复 132 题。
 - 旧的 `?model=particles|induction` 模块筛选与 `?q=` 单题深链保留；模型筛选切换会同步模块筛选，避免“模型已选但模块冲突”的空列表。
-- 详见 [ROUND14_MODEL_COVERAGE_AUDIT.md](ROUND14_MODEL_COVERAGE_AUDIT.md)。
+- 覆盖测试与路由证据见 [QA.md](QA.md) 和 `tests/content/learningPath.test.ts`。
 
 ## 6. 题目案例与整题仿真覆盖（Round 15/16/17，跨模型，不新增编号）
 
@@ -81,5 +81,4 @@
 - 新增**教师题目工作台**（Round 17）不是第 17 个基础模型：16 个模型仍为 16/16 COMPLETE；教师草稿数量不进入模型矩阵、132 题或内置案例计数。
 - 整题工作台使用同一物理舞台、统一 `tGlobal`、真实事件表与逐问答案；不再以基础模型跳转作为完成。
 - 来源/授权：9 案 `original_case/original/paper_and_solution_verified`；5 条真题索引 `exam_reference/unverified/link_only`。
-- Round 18 最终回归：Vitest **607/607**（57 文件）、Playwright **183/183**（SIMULATED）、PWA **3/3**、`verify:static` 通过；Round 17/18 见 [ROUND17_QA.md](ROUND17_QA.md) 与 [ROUND18_QA.md](ROUND18_QA.md)。
-- 真实外部 HTTPS **BLOCKED**；真实 iPadOS/Android **NOT_TESTED**；案例完成不等于真机、授权真题或公网发布完成。
+- 正式 HTTPS 站点已上线；iPad Safari 基本打开/安装已完成，完整 iPadOS/Android 真机专项 **NOT_TESTED**；案例完成不等于真机、授权真题或完整发布验收完成。

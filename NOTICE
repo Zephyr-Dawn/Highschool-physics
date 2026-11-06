@@ -1,0 +1,14 @@
+EM Physics Lab
+Copyright (C) 2026 EM Physics Lab contributors
+
+SPDX-License-Identifier: GPL-3.0-only
+
+This project is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, version 3 only. See LICENSE for the complete license text.
+
+Original source code, original exercises, original whole-problem cases and
+original teaching text authored for this project are licensed under
+GPL-3.0-only. Third-party dependencies, fonts, tools and external exam
+references remain under their own terms; see docs/THIRD_PARTY_LICENSES.md.
+The GPL does not grant trademark rights or rights to third-party content.

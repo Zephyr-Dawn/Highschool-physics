@@ -1,20 +1,20 @@
 # 原生 App 路线决策
 
 日期：2026-11-06  
-状态（Round 18）：`CAPACITOR_CONFIG_READY`；`NATIVE_BUILD_VERIFIED = BLOCKED`。`native/capacitor-pilot` 已加入隔离配置（8.6.0、`webDir='../../dist'`、无 `server.url`），但本机无 Android SDK/现代 JDK/Xcode，未生成 APK/IPA。
+当前状态：`CAPACITOR_CONFIG_READY`；`NATIVE_BUILD_VERIFIED = BLOCKED`。`native/capacitor-pilot` 已加入隔离配置（8.6.0、`webDir='../../dist'`、无 `server.url`），但本机无 Android SDK/现代 JDK/Xcode，未生成 APK/IPA。
 
 ## 决策
 
 1. **主产品继续 Web/PWA**：先完成 HTTPS 发布与真实 iPad/Android 浏览器验收。
 2. **未来原生优先 Capacitor**：复用现有 React/Vite `dist`，在独立 `native-pilot/*` 分支验证 Android WebView/iOS WKWebView、WebGL、手势、软键盘、存储迁移与文件导入导出。
-3. **AI Studio Kotlin/Compose** 只作为隔离 UI 原型，不做 16 个物理求解器的重写，也不作为 iPadOS 构建路径。
+3. 不使用 Flutter/React Native 或 Kotlin/Compose 重写 16 个物理求解器，也不把它们作为 iPadOS 构建路径。
 
 ## 本机证据
 
 - `java`、`adb`、`gradle` 未找到；`ANDROID_HOME`/`ANDROID_SDK_ROOT` 为空 → `BLOCKED: ANDROID_SDK`。
 - Windows 无 `xcodebuild`/CocoaPods → `BLOCKED: XCODE_OR_SIGNING`。
 - 未安装 Capacitor，未生成 `android/`/`ios/`，未生成 APK/IPA。
-- 详细矩阵、命令与验证项见 [AI_STUDIO_NATIVE_FEASIBILITY.md](AI_STUDIO_NATIVE_FEASIBILITY.md)。
+- 详细矩阵、命令与验证项见 [NATIVE_FEASIBILITY.md](NATIVE_FEASIBILITY.md)。
 
 ## 不得跨越的红线
 
@@ -25,7 +25,7 @@
 - 没有真机不写 `DEVICE_VERIFIED`。
 
 
-## Round 18 更新
+## 原生 Pilot 现状
 
 - 已增加 `src/platform/runtimePlatform.ts`：browser/PWA/Capacitor 检测；原生壳跳过 SW。
 - 已增加 `native/capacitor-pilot`：固定 Capacitor 8.6.0，不污染根 `package.json`/PWA；教师草稿不进入 native assets。

@@ -2,6 +2,7 @@
   "name": "em-physics-lab",
   "private": true,
   "version": "0.1.0",
+  "license": "GPL-3.0-only",
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
@@ -17,7 +18,8 @@
     "verify:static": "npm run build && node scripts/check-static-build.mjs",
     "smoke:staging": "node scripts/smoke-staging.mjs",
     "simulate:upgrade": "node scripts/simulate-pwa-upgrade.mjs",
-    "smoke:headers": "node scripts/check-release-headers.mjs"
+    "smoke:headers": "node scripts/check-release-headers.mjs",
+    "postbuild": "node scripts/check-static-build.mjs"
   },
   "dependencies": {
     "@react-three/fiber": "^9.8.2",

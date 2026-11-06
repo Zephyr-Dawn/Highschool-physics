@@ -52,12 +52,14 @@ describe('Round 17 release and integration safeguards', () => {
     expect(store).toContain('__proto__');
   });
 
-  it('keeps deployment blocked and real-device statuses honest in documentation', () => {
-    const deployment = readFileSync(join(root, 'docs', 'ROUND17_DEVICE_RELEASE_MATRIX.md'), 'utf8');
-    expect(deployment).toContain('BLOCKED');
+  it('keeps live deployment and real-device limits honest in documentation', () => {
+    const deployment = readFileSync(join(root, 'docs', 'DEVICE_RELEASE_MATRIX.md'), 'utf8');
+    expect(deployment).toContain('https://soft-toffee-cbd208.netlify.app/');
     expect(deployment).toContain('NOT_TESTED');
     expect(deployment).toContain('SIMULATED');
-    expect(deployment).not.toMatch(/https:\/\/[a-z0-9-]+\.netlify\.app/i);
+    expect(deployment).toContain('BLOCKED');
+    expect(deployment).not.toContain('HTTPS_DEPLOYMENT_BLOCKED');
+    expect(deployment).not.toContain('没有真实外网 URL');
   });
 
   it('keeps A17-01 outside the 16-model registry while preserving the case route', () => {

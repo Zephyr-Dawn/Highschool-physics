@@ -48,3 +48,19 @@ Thumbs.db
 *.apk
 *.aab
 *.ipa
+
+# historical development prompts / task briefs (kept in private archive, not product docs)
+/EM_Physics_Lab_*.md
+/EM_Physics_Tablet_First_Prompt.md
+/01_CODEX_*.md
+/02_GOOGLE_*.md
+/AI_STUDIO_HANDOFF.md
+/SUMMARY.md
+docs/ROUND*.md
+docs/AI_STUDIO_*.md
+
+# only curated product screenshots are versioned; Playwright may regenerate the rest locally
+docs/screenshots/*
+!docs/screenshots/product-overview.png
+!docs/screenshots/product-simulation.png
+!docs/screenshots/product-teacher.png

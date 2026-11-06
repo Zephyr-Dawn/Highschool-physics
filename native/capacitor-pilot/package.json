@@ -2,6 +2,7 @@
   "name": "em-physics-lab-capacitor-pilot",
   "private": true,
   "version": "0.1.0-round18",
+  "license": "GPL-3.0-only",
   "type": "module",
   "description": "Isolated Capacitor pilot for the existing EM Physics Lab dist build. Not the primary product.",
   "scripts": {

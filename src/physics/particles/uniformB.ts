@@ -1,6 +1,6 @@
 import { add, length, rotate, scale, type Vec2 } from '../core/vec2';
 
-/** Teaching-scale constants. See docs/PHYSICS_SPEC.md and docs/DECISIONS.md. */
+/** Teaching-scale constants. See docs/PHYSICS_SPEC.md. */
 export const MASS_UNIT_KG = 1e-26;
 export const CHARGE_UNIT_C = 1.602176634e-19;
 export const SPEED_UNIT_MPS = 1e6;
