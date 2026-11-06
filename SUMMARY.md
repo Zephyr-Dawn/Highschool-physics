@@ -1,27 +1,29 @@
-# EM Physics Lab — Round 13–16 交付总结（交接版）
+# EM Physics Lab — Round 13–18 交付总结（交接版）
 
-日期：2026-11-05  
+日期：2026-11-06  
 工作区：`H:\programming\EM_Physics_Lab`（Windows 10.0.26100，**非 git 仓库**，不要假设可用 git 历史/回滚）  
-用途：把最近四轮（Round 13–16）的工程进度、架构、测试证据、限制和协作规则交给下一位 agent/教师。
+用途：把最近六轮（Round 13–18）的工程进度、架构、测试证据、限制和协作规则交给下一位 agent/教师。
 
 ---
 
 ## 0. 一句话现状
 
-已完成 **16 个可运行物理模型（P01–P08、I01–I08）**、**132 道原创基础题**、**8 个原创整题案例（C01–C08）**、**16 模型学习路线**、**全模型安全数学表达式输入**、**本地设备诊断**与**静态 HTTPS 部署包**。  
-当前最终实测：`typecheck` 通过、**Vitest 556/556（50 文件）**、**Playwright 172/172**、**PWA 2/2**、`verify:static` 通过。  
+已完成 **16 个可运行物理模型（P01–P08、I01–I08）**、**132 道原创基础题**、**9 个内置整题案例（C01–C08 + A17-01）**、**教师题目工作台**、**16 模型学习路线**、**全模型安全数学表达式输入**、**完整本地数据备份/迁移**、**本地设备诊断**、**静态 HTTPS 部署包**与**Capacitor pilot 配置**。  
+当前最终实测：`typecheck` 通过、**Vitest 607/607（57 文件）**、**Playwright 183/183**、**PWA 3/3**、`verify:static` 通过。  
 仍未完成：真实 iPadOS/Android 验收、外部 HTTPS 发布（BLOCKED，无授权）、真实高考题内容的权威核验/转载授权。
 
 ---
 
-## 1. 四轮进度总览
+## 1. 六轮进度总览
 
 | 轮次 | 核心交付 | 当时/最终验证 |
 |---|---|---|
 | **Round 13** | I07 相反磁区线框 + 真实挡板；P08 约束/临界/单参数反求；16 模型完成度矩阵 | 16 个原编号完成，132 题；详见 `docs/ROUND14_MODEL_COVERAGE_AUDIT.md` 前的历史记录 |
 | **Round 14** | I08 交流发电机（正弦交流、有效值、负载/内阻功率、手动转动）；`/#/path` 两条 16 模型学习路线、真实讲解/预设/练习深链 | Vitest 521/521（44 文件）、Playwright 159/159、PWA 2/2 |
 | **Round 15** | 6 个原创高考风格案例 C01–C06；来源/核验/转载权利分层；`/#/device-check` 本地诊断；`netlify.toml`、`_headers`、`verify:static`、`preview:staging` | Vitest 541/541（48 文件）、Playwright 165/165、PWA 2/2、verify:static 通过 |
-| **Round 16** | 8 个**整题连续仿真**案例 C01–C08；同一舞台/统一 `tGlobal`/真实事件；逐问解析、答案输入/单位/量纲、变式有效性；新增 C07/C08；真实来源实际检索 | **Vitest 556/556（50 文件）**、**Playwright 172/172**、**PWA 2/2**、verify:static 通过 |
+| **Round 16** | 8 个**整题连续仿真**案例 C01–C08；同一舞台/统一 `tGlobal`/真实事件；逐问解析、答案输入/单位/量纲、变式有效性；新增 C07/C08；真实来源实际检索 | Vitest 556/556、Playwright 172/172、PWA 2/2 |
+| **Round 17** | 教师题目工作台（列表/编辑/预览/导入导出）；A17-01 跨求解器连续题、A17-02 感应模板；内置案例增至 9 个 | Vitest 593/593、Playwright 180/180、PWA 3/3 |
+| **Round 18** | 变式推导默认折叠；完整本地备份/迁移；平台检测；静态包 buildId/secret/私有文件/CSP 硬化；staging smoke；Build A→B PWA 模拟；Capacitor pilot 配置 | **Vitest 607/607（57 文件）**、**Playwright 183/183**、**PWA 3/3**、verify:static 通过 |
 
 ### 1.1 Round 13 — I07 / P08
 
@@ -46,11 +48,24 @@
 ### 1.4 Round 16 — 整题连续仿真 / 逐问解析
 
 - 新增整题工作台：同一物理舞台 + 统一 `tGlobal` + 事件时间轴 + 逐问推导/答案/变式；不再把“跳转基础模型”当作整题完成。
-- **8 个案例全部 `full_problem_simulated`**：C01 P04、C02 P05、C03/C07 P07、C04 I03、C05 I05、C06 I07、C08 I06。
+- **8 个案例全部 `full_problem_simulated`**：C01 P04、C02 P05、C03/C07 P07、C04 I03、C05 I05、C06 I07、C08 I06；Round 17 另增 A17-01 跨求解器连续题。
 - **24 个小问**（8×3）：每问 3–4 步推导、≥2 提示、单位/符号/量纲、典型错误、独立验算、≥2 变式。
 - 新增 C07“可调磁分析器：屏幕落点/镜像/临界”和 C08“双棒追及/接触/焦耳热”；均为原创。
 - 答案有效性：参数依赖改变后使用当前求解器重算；无唯一值返回 `needs_review`；不沿用失效标准值。
 - 实际检索 5 条真题索引：0 条权威原卷；2 条第三方题面/解析可见但版权保留；1 条答案付费受阻；2 条地区/真题身份不足。应用仍全部 `unverified/link_only`，无题面/图片/答案复制。
+
+### 1.5 Round 17 — 教师工作台 / A17-01
+
+- `/#/teacher/problems`、编辑器、学生视图预览；A17-01 电场加速→有限磁场→自由漂移→屏幕，两个交接误差 0；A17-02 I07 感应+挡板模板。
+- 教师草稿本机私有 `emplab.teacher-problems.v1`；导入/导出、URL/公式/大小/深度/原型污染防护；C01–C08/A17 可复制为草稿。
+- 内置案例 9 个（C01–C08 + A17-01），16 模型/132 题不变。
+
+### 1.6 Round 18 — 发布门禁 / 数据迁移 / 原生评估
+
+- 变式下标准推导默认折叠，显式“仍查看标准推导（仅参考）”；参考值/判题始终用当前求解器。
+- “我的记录”新增完整本地备份：场景、132 题、案例、教师草稿、讲解/模式、设备记录；预览后恢复、失败回滚、不 `localStorage.clear()`。
+- 静态包：release manifest schemaVersion 2 + buildId、secret/私有文件扫描、CSP/Permissions-Policy、`smoke:headers`、`smoke:staging`（显式 URL）、`simulate:upgrade`（本地 SIMULATED）。
+- 平台检测 browser/PWA/Capacitor；原生壳跳过 SW；`native/capacitor-pilot` 固定 Capacitor 8.6.0，无 `server.url`。**无 Android SDK/JDK/Xcode，APK/IPA 未生成**。
 
 ---
 
@@ -102,19 +117,19 @@
 | 命令 | 结果 |
 |---|---|
 | `npm run typecheck` | 通过 |
-| `npx vitest run` | **556/556**，50 文件 |
-| `npx playwright test` | **172/172**，约 6.5 分钟 |
-| `npm run test:pwa` | **2/2**，覆盖 16 模型 + 8 案例 + 整题工作台 + 设备检测 + 学习路线 + P01 3D |
-| `npm run verify:static` | 通过：`62 JS, 1 CSS, assets 4128.4 KiB, sha 8838` |
+| `npx vitest run` | **607/607**，57 文件 |
+| `npx playwright test` | **183/183**，约 6.4 分钟 |
+| `npm run test:pwa` | **3/3**，覆盖 16 模型 + 9 案例 + 教师离线 + 本地备份 + 学习路线 + P01 3D |
+| `npm run verify:static` | 通过：`72 JS, 1 CSS, assets 4249.4 KiB, 140 files, sha 53e1bb251445`；manifest v2 + buildId |
 
 构建（最终实测）：
 
-- 入口 JS：337.32 kB（gzip 102.71）。
-- 案例详情：46.57 kB（gzip 15.13）。
-- 案例会话：83.02 kB（gzip 27.36）。
-- CSS：131.81 kB（gzip 27.32）。
-- PWA 预缓存：134 项 / 4187.14 KiB。
-- P01ThreeDStage：978.48 kB（gzip 263.15，单独懒加载）。
+- 入口 JS：340.35 kB（gzip 103.65）。
+- 案例详情：随 Round17 教师/整题代码调整；最终构建以 `ROUND18_QA` 为准。
+- 教师列表/编辑器/预览：18.03 / 25.07 / 4.54 kB。
+- CSS：140.99 kB（gzip 28.84）。
+- PWA 预缓存：144 项 / 4308.13 KiB。
+- P01ThreeDStage：978.52 kB（gzip 263.16，单独懒加载）。
 
 推荐验收顺序：
 
@@ -141,6 +156,7 @@ npm run verify:static
 | C06 I07 整题 | `ε₀=16 V`、碰前 1.8 m/s、`Q_impact=1.215 J`、反弹 −0.9 m/s |
 | C07 P07 | `screenY=2−2√3/3≈0.8452995 m`；B 反号镜像；临界 `|B|=2 T` |
 | C08 I06 | `I₀=1 A`、`t_contact=ln2 s`、接触时 `v₁=1.5, v₂=0.5 m/s`、`Q_J=0.75 J` |
+| A17-01 复合场 | `tA=√3−1`、`tB=π/6`、`tC=2/3`、总时间 1.9223162498 s；B 出射 y=√3−3/2；屏幕 y=4√3/3−3/2；两交接误差 0 |
 
 C06 的 **0.375 J** 是 B=0、宽 0.5 m、碰前 1 m/s 的**分阶段控制实验**，不是整题连续场景；不要混写。
 
@@ -162,6 +178,8 @@ C06 的 **0.375 J** 是 B=0、宽 0.5 m、碰前 1 m/s 的**分阶段控制实�
 | 项目 | 状态 | 说明 |
 |---|---|---|
 | 真实 iPadOS Safari / Android Chrome | **NOT_TESTED** | 触摸、软键盘、安全区、VoiceOver/TalkBack、WebGL 真机恢复、发热/续航未验证 |
+| Android/iOS 原生构建 | **BLOCKED** | 无 Android SDK/现代 JDK/Xcode；`native/capacitor-pilot` 仅配置就绪 |
+| 本地完整备份 | 已实现 | 场景/132 题/案例/教师草稿/设备记录；预览恢复、失败回滚、不 clear |
 | CDP/无头 Chrome | **SIMULATED** | 不是真机通过，不得宣称 60 fps |
 | 外部 HTTPS 部署 | **BLOCKED** | 没有托管账号/站点授权；无公网 URL；`preview:staging` 只是本地预览 |
 | 真题权威核验 | **未完成** | 0 条权威原卷，全部 link_only |
@@ -191,7 +209,7 @@ C06 的 **0.375 J** 是 B=0、宽 0.5 m、碰前 1 m/s 的**分阶段控制实�
 4. **不得用“跳到基础模型”冒充整题仿真**：整题必须同舞台、统一 `tGlobal`、真实事件；不满足时标 `partial_stage`。
 5. **答案必须随参数失效/重算**：`dependsOn` 改变后读取当前求解器答案；无唯一值 `needs_review`，不得沿用旧数值。
 6. **不得伪造部署/真机结果**：无授权写 `BLOCKED`，无真机写 `NOT_TESTED`，CDP/headless 只标 `SIMULATED`。
-7. **保留 16 模型 / 132 题 / 8 案例 / 学习路线 / PWA / 表达式输入 / 场景 v2 / 进度隔离**。
+7. **保留 16 模型 / 132 题 / 9 个内置案例（C01–C08 + A17-01）/ 学习路线 / PWA / 表达式输入 / 场景 v2 / 进度隔离**。
 8. **共享文件由主 Agent 统一集成**：`App.tsx`、`CaseDetailPage.tsx`、`problemCases.ts`、`global.css`、README/文档等不要并行直改。
 9. **文档数字必须来自当次实际运行**；运行完整验收顺序后再更新 README/QA/ROUND16_QA/AGENT_HANDOFF。
 10. **不要只输出计划**；交付代码、测试实际输出、截图、物理验算和剩余限制。
@@ -221,11 +239,13 @@ C06 的 **0.375 J** 是 B=0、宽 0.5 m、碰前 1 m/s 的**分阶段控制实�
 ## 10. 建议的下一步
 
 1. **真实平板验收**：按 `CLASSROOM_DEVICE_QA.md` 在 iPadOS Safari/Android Chrome 上跑 15 分钟脚本；结果标 PASS/FAIL/BLOCKED，未测仍 `NOT_TESTED`。
-2. **获得托管授权后真实部署**：按 `DEPLOYMENT_STAGING.md` 发布，验证 8 案例/16 模型深链、离线、更新与回滚；不得用 localhost 冒充。
+2. **获得托管授权后真实部署**：按 `ROUND18_STAGING_RUNBOOK.md` 发布，验证 9 案例/16 模型深链、离线、更新与回滚；不得用 localhost 冒充。
 3. **真题合法来源**：获得原卷与书面授权后，逐题补页码/答案/覆盖表；在此之前不升级 `unverified/link_only`。
 4. **教学审查**：请物理教师复核 C01–C08 的推导、符号、单位与难度；尤其是 C06 的 1.215 J / 0.375 J 控制实验区分、C08 的 0.75 J 接触热。
-5. **可选扩展**：把 C02 的初速变式扩展为完整多粒子手柄、把 C05 手动 B/手势历史纳入整题侧栏；先证明不破坏统一时钟和答案有效性。
-6. **性能**：继续评估 P01 3D 978 kB 懒加载 chunk；不要为此降低物理精度或测试。
+5. **发布**：获得 Netlify 授权后执行 `ROUND18_STAGING_RUNBOOK.md`，用真实 URL 运行 `smoke:staging`；没有授权前保持 BLOCKED。
+6. **原生**：安装 JDK 21/Android SDK 后按 `native/capacitor-pilot/README.md` 构建 debug APK；有 Mac/Xcode/签名再做 iPadOS；无真机不写设备通过。
+7. **可选扩展**：把 C02 的初速变式扩展为完整多粒子手柄、把 C05 手动 B/手势历史纳入整题侧栏；先证明不破坏统一时钟和答案有效性。
+8. **性能**：继续评估 P01 3D 978 kB 懒加载 chunk；不要为此降低物理精度或测试。
 
 ---
 
@@ -233,9 +253,9 @@ C06 的 **0.375 J** 是 B=0、宽 0.5 m、碰前 1 m/s 的**分阶段控制实�
 
 ### 第 1 小时
 
-1. 读本文件 §0–§4、`docs/AGENT_HANDOFF.md`、`docs/ROUND16_QA.md`。
+1. 读本文件 §0–§4、`docs/AGENT_HANDOFF.md`、`docs/ROUND16_QA.md`、`docs/ROUND18_QA.md`。
 2. 运行 `npm run typecheck`、`npx vitest run`；不要先安装依赖或改代码。
-3. 打开 `/#/cases/case-c03-beamline-detector`，确认整题工作台、事件条和逐问答案；再抽查 C02/C06/C08。
+3. 打开 `/#/cases/case-c03-beamline-detector`，确认整题工作台、事件条和逐问答案；再抽查 C02/C06/C08、A17-01 和教师预览；在“我的记录”检查完整备份面板。
 4. 读 `src/features/cases/wholeProblem/buildWholeProblem.ts` 与 `caseAnswerCheck.ts`，确认没有第二套求解器。
 5. 确认工作区不是 git 仓库；需要隔离实验时复制工作区，不要假设 `git worktree`/`git reset` 可用。
 

@@ -121,7 +121,7 @@ test('device check: NOT_TESTED defaults, redacted export and 10 s scheduling pro
   const downloadPath = await download.path();
   expect(downloadPath).not.toBeNull();
   const report = JSON.parse(await fs.readFile(downloadPath!, 'utf8')) as Record<string, unknown>;
-  expect(report.appVersion).toBe('0.1.0-round17');
+  expect(report.appVersion).toBe('0.1.0-round18');
   expect((report.privacy as Record<string, unknown>).containsSceneData).toBe(false);
   expect((report.privacy as Record<string, unknown>).containsQuestionAnswers).toBe(false);
   expect(JSON.stringify(report)).not.toContain('emplab.progress');

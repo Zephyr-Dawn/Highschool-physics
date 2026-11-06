@@ -14,7 +14,10 @@
     "icons": "node scripts/generate-icons.mjs",
     "test:pwa": "npm run build && playwright test -c playwright.pwa.config.ts",
     "preview:staging": "vite preview --host 0.0.0.0 --port 4174 --strictPort",
-    "verify:static": "npm run build && node scripts/check-static-build.mjs"
+    "verify:static": "npm run build && node scripts/check-static-build.mjs",
+    "smoke:staging": "node scripts/smoke-staging.mjs",
+    "simulate:upgrade": "node scripts/simulate-pwa-upgrade.mjs",
+    "smoke:headers": "node scripts/check-release-headers.mjs"
   },
   "dependencies": {
     "@react-three/fiber": "^9.8.2",

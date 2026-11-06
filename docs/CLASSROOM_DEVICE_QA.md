@@ -1,4 +1,6 @@
-# 课堂平板设备 QA 与诊断（Round 15）
+# 课堂平板设备 QA 与诊断（Round 15/18）
+
+> Round 18 的最新真机验收清单与运行时平台字段见 [ROUND18_DEVICE_ACCEPTANCE.md](ROUND18_DEVICE_ACCEPTANCE.md)。
 
 ## 1. 原则
 

@@ -10,6 +10,7 @@ import {
   useProgress,
 } from '../features/progress/progressStore';
 import { Icon } from '../components/Icon';
+import { LocalBackupPanel } from '../components/LocalBackupPanel';
 
 function formatDate(value: string | null): string {
   if (!value) return '—';
@@ -216,6 +217,8 @@ export function ProgressPage() {
           )}
         </div>
       </section>
+
+      <LocalBackupPanel />
 
       <div className="callout callout-note privacy-note">
         <Icon name="info" size={18} />

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Icon } from '../components/Icon';
 import { APP_BUILD_LABEL, APP_VERSION } from '../lib/appInfo';
 import { usePersistentState } from '../hooks/usePersistentState';
+import { detectRuntimePlatform } from '../platform/runtimePlatform';
 
 type CheckStatus = 'NOT_TESTED' | 'PASS' | 'FAIL' | 'BLOCKED' | 'N/A';
 type AutomatedStatus = 'NOT_TESTED' | 'SIMULATED_PASS' | 'SIMULATED_FAIL' | 'UNSUPPORTED';
@@ -67,6 +68,9 @@ interface DeviceInfo {
   hardwareConcurrency: string;
   webdriver: boolean;
   maxTouchPoints: number;
+  runtimePlatform: string;
+  nativeShell: boolean;
+  displayMode: string;
 }
 
 const EMPTY_DEVICE: DeviceInfo = {
@@ -87,6 +91,9 @@ const EMPTY_DEVICE: DeviceInfo = {
   hardwareConcurrency: '',
   webdriver: false,
   maxTouchPoints: 0,
+  runtimePlatform: 'browser',
+  nativeShell: false,
+  displayMode: 'browser',
 };
 
 function defaultManual(): Record<string, ManualEntry> {
@@ -120,6 +127,7 @@ export function DeviceCheckPage() {
     document.title = '课堂设备检测｜EM Physics Lab';
     const gather = async () => {
       const nav = navigator as Navigator & { deviceMemory?: number; hardwareConcurrency?: number };
+      const runtime = detectRuntimePlatform();
       const canvas = document.createElement('canvas');
       let webgl: AutomatedStatus = 'UNSUPPORTED';
       let renderer = '';
@@ -166,6 +174,9 @@ export function DeviceCheckPage() {
         hardwareConcurrency: nav.hardwareConcurrency ? String(nav.hardwareConcurrency) : '未知',
         webdriver: navigator.webdriver === true,
         maxTouchPoints: navigator.maxTouchPoints ?? 0,
+        runtimePlatform: runtime.platform,
+        nativeShell: runtime.isNativeShell,
+        displayMode: runtime.displayMode,
       });
     };
     void gather();
@@ -265,6 +276,12 @@ export function DeviceCheckPage() {
         userModel: userModel || '未填写',
         userOs: userOs || '未填写',
       },
+      runtime: {
+        platform: device.runtimePlatform,
+        nativeShell: device.nativeShell,
+        displayMode: device.displayMode,
+        sourceNote: device.nativeShell ? 'Capacitor WebView 自述运行环境；未在真实设备验证' : '浏览器/PWA 运行环境',
+      },
       automated: {
         webglLossRecovery: webglLoss,
         webglLossNote,
@@ -355,6 +372,7 @@ export function DeviceCheckPage() {
             <div><dt>安全上下文</dt><dd>{device.secureContext ? '是（HTTPS/localhost）' : '否（Service Worker 不可用）'}</dd></div>
             <div><dt>Service Worker</dt><dd>{device.serviceWorker}</dd></div>
             <div><dt>网络</dt><dd>{device.online ? '在线' : '离线'}</dd></div>
+            <div><dt>运行平台</dt><dd>{device.runtimePlatform} · {device.displayMode}{device.nativeShell ? ' · 原生壳' : ''}</dd></div>
             <div><dt>Standalone</dt><dd>{device.standalone ? '是' : '否'}</dd></div>
             <div><dt>WebGL</dt><dd>{device.webgl}{device.webglRenderer ? ` · ${device.webglRenderer}` : ''}</dd></div>
             <div><dt>CPU / 内存</dt><dd>{device.hardwareConcurrency} 核 · {device.deviceMemory}</dd></div>

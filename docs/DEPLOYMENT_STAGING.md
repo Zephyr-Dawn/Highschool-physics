@@ -4,7 +4,7 @@
 
 **BLOCKED: hosting authorization unavailable**
 
-本仓库已经具备可静态托管的构建、Netlify 配置、缓存头、离线 PWA 与构建自检脚本；但当前执行环境没有可用的托管平台账号、站点令牌或发布授权，因此**没有执行真实外部部署，也没有可报告的公网 URL**。本文不虚构任何 `*.netlify.app` 或其他公网地址。
+本仓库已经具备可静态托管的构建、Netlify 配置、缓存头、离线 PWA 与构建自检脚本；但当前执行环境没有可用的托管平台账号、站点令牌或发布授权，因此**没有执行真实外部部署，也没有可报告的公网 URL**。本文不虚构任何 `*.netlify.app` 或其他公网地址。**Round 18 的最新发布步骤、CSP/安全头、`smoke:staging`、两版本升级与回滚以 [ROUND18_STAGING_RUNBOOK.md](ROUND18_STAGING_RUNBOOK.md) 为准。**
 
 已完成、可复现的部分：
 

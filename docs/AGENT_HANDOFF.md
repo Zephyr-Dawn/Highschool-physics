@@ -1,9 +1,9 @@
 # Agent 对接说明书（EM Physics Lab）
 
-生成时间：2026-11-05（Round 16 整题连续仿真 + 逐问解析完成后）
+生成时间：2026-11-06（Round 18 发布准备 + 原生 Pilot 完成后）
 用途：把本仓库现状、架构约定、验证方式与禁止事项一次性交接给下一个 agent。收到“继续开发某模型 / 修复某问题 / 跑回归”类命令时，先读本文，再动手。
 
-> **最近四轮交接总览：** 先读根目录 [SUMMARY.md](../SUMMARY.md)（Round 13–16 的交付、测试、限制与协作规则），再读本文的长期约束。
+> **最近六轮交接总览：** 先读根目录 [SUMMARY.md](../SUMMARY.md)（Round 13–16 的交付、测试、限制与协作规则）与 [ROUND18_QA.md](ROUND18_QA.md)（Round 17–18 教师/发布/原生状态），再读本文的长期约束。
 
 ---
 
@@ -11,10 +11,10 @@
 
 - 项目：平板优先的高中电磁学交互实验 PWA，面向黑龙江/黑吉辽蒙新高考物理复习。
 - 工作目录：`H:\programming\EM_Physics_Lab`（Windows，**不是 git 仓库**，不要用 git 命令做备份/回滚假设）。
-- 当前状态（Round 16 后）：**16 个 COMPLETE 模型**（P01–P08、I01–I08）+ **132 道原创题** + **8 个原创整题案例（C01–C08，全部 `full_problem_simulated`）** + **整题统一舞台/事件时间轴/逐问判题** + **16 模型学习路线** + **全模型数学表达式参数输入** + **设备检测页**，全套自动化绿灯。
+- 当前状态（Round 18 后）：**16 个 COMPLETE 模型**（P01–P08、I01–I08）+ **132 道原创题** + **9 个内置原创整题案例（C01–C08 + A17-01）** + **教师题目工作台** + **整题统一舞台/事件时间轴/逐问判题** + **完整本地备份/迁移** + **16 模型学习路线** + **全模型数学表达式参数输入** + **设备检测页**；全套自动化绿灯。
 - 技术栈：React 19 + TypeScript 5.9 + Vite 7 + HashRouter + Zod 4 + Three.js 0.187/@react-three/fiber 9.8（仅 P01 3D，懒加载）+ Vitest 3 + Playwright 1.64（本机 Chrome 156，`channel: 'chrome'`，headless）+ vite-plugin-pwa。
 - 关键设计：**物理求解器是纯函数模块，不依赖 React/SVG/帧率**；页面只做状态编排；事件由解析求根产生，不用动画采样“演”物理。
-- 最新一轮：Round 17 = 教师题目工作台 + A17-01 跨求解器连续题 + Track B 发布/真机状态；C01–C08 与 A17-01 共 9 个内置原创案例，16 个模型/132 题不变。见 `docs/ROUND17_QA.md`、`docs/ROUND17_PROBLEM_AUTHORING_SPEC.md`、`docs/ROUND17_COMPOSITE_PHYSICS_PROOF.md`。Round 16 整题底座见 `docs/ROUND16_QA.md`、`docs/WHOLE_PROBLEM_SIMULATION_SPEC.md`。
+- 最新一轮：Round 18 = 变式推导默认折叠、统一本地备份、平台检测、静态包 secret/私有文件/CSP 硬化、staging smoke、Build A→B PWA 本地模拟、Capacitor pilot 配置。外部 HTTPS BLOCKED、真实平板 NOT_TESTED、Android/iOS 原生构建 BLOCKED（无 SDK/JDK/Xcode）。见 `docs/ROUND18_QA.md`、`docs/ROUND18_STAGING_RUNBOOK.md`、`docs/ROUND18_NATIVE_FEASIBILITY.md`。Round 17 教师工作台见 `docs/ROUND17_QA.md`。
 
 ---
 
@@ -29,19 +29,21 @@
 
 ## 1. 当前可验证事实（不要凭记忆引用，跑命令确认）
 
-| 项目 | 实测值（2026-11-05，Round 17 后） |
+| 项目 | 实测值（2026-11-06，Round 18 后） |
 |---|---|
 | `npm run typecheck` | 通过，无输出 |
-| `npx vitest run` | **593 / 593 通过**，54 个测试文件 |
-| `npx playwright test` | **180 / 180 通过**（SIMULATED） |
-| `npm run test:pwa` | **3 / 3 通过**（build + 离线重载 16 模型 + 9 案例 + 教师草稿/预览 + 设备检测 + 学习路线 + 旧进度保留） |
-| `npm run verify:static` | 通过：`71 JS, 1 CSS, assets 4239.4 KiB, 139 files, sha f3ea43f6b30e`；生成 `release-manifest.json` |
-| 入口 JS | 339.74 kB（gzip 103.33 kB） |
+| `npx vitest run` | **607 / 607 通过**，57 个测试文件 |
+| `npx playwright test` | **183 / 183 通过**（SIMULATED） |
+| `npm run test:pwa` | **3 / 3 通过**（16 模型 + 9 案例 + 教师草稿/预览 + 本地备份 + 旧进度保留） |
+| `npm run verify:static` | 通过：`72 JS, 1 CSS, assets 4249.4 KiB, 140 files, sha 53e1bb251445`；release manifest schemaVersion 2 + buildId |
+| 入口 JS | 340.35 kB（gzip 103.65 kB） |
 | 教师 chunk | 列表 17.82 kB、编辑器 25.07 kB、预览 4.54 kB、存储 27.17 kB |
 | P01ThreeDStage | 978.52 kB（gzip 263.16 kB，懒加载，不进主链） |
-| CSS | 140.61 kB（gzip 28.78 kB） |
-| PWA 预缓存 | 143 项 / 4298.11 KiB |
-| 原创题 / 题目案例 | 132 题（P01 14、P02–P08/I01/I02/I05/I06/I07/I08 各 8、I03 6、I04 8）/ **9 个整题案例（C01–C08 + A17-01，单独计数）**；教师草稿不计入 |
+| CSS | 140.99 kB（gzip 28.84 kB） |
+| PWA 预缓存 | 144 项 / 4308.13 KiB |
+| 原创题 / 题目案例 | 132 题 + **9 个内置整题案例（C01–C08 + A17-01，单独计数）**；教师草稿不计入 |
+| 本地数据备份 | 场景/132 题/案例/教师草稿/设备记录；`emplab.local-backup` v1，4 MiB 上限、预览+回滚 |
+| 原生构建 | **BLOCKED**：无 Android SDK/现代 JDK/Xcode；`native/capacitor-pilot` 配置就绪 |
 | 外部 HTTPS 部署 | **BLOCKED（无托管授权），无公网 URL** |
 | 真实 iPadOS / Android | **NOT_TESTED**；CDP/无头结果 = `SIMULATED` |
 
@@ -305,6 +307,15 @@ Page（编排、持久化、预设、草稿编辑）
 - **状态**：逐问进度写入 `emplab.cases.progress.v1` 的可选 `parts`；`?part=a|b|c` 是白名单深链。旧 Round15 阶段跳转仍保留，但明确标注为“分阶段基础模型对照”，不当作整题完成。
 - **测试**：`tests/content/wholeProblem.test.ts`（10）、`caseAnswerCheck.test.ts`（5）、`tests/tablet/round16.spec.ts`（7）；全量 555/172/2。不要为了页面效果降低这些物理断言。
 
+### 5.13 发布门禁与原生 Pilot（第十八轮成果）
+
+- **变式推导**：`WholeProblemLab.tsx` 在 `dependencyChanged` 时默认折叠标准推导，必须点 `wpl-reveal-stale-derivation` 才显示；参考值与判题仍用当前求解器。教师模式不例外。测试见 `tests/tablet/round18-release.spec.ts`。
+- **完整备份**：`src/features/release/localBackup.ts` + `LocalBackupPanel`（我的记录页）；导出场景、132 题、案例、教师草稿、讲解/模式、设备记录；排除临时案例键；单键 1 MiB/总 4 MiB，预览后覆盖，失败回滚，不 `localStorage.clear()`。
+- **平台检测**：`src/platform/runtimePlatform.ts`；`main.tsx` 在 Capacitor 原生壳跳过 SW；DeviceCheck 报告新增 `runtime.platform`。真机/CDP 状态仍分离。
+- **静态发布**：`verify:static` 生成 manifest schemaVersion 2/buildId；扫描 source map/secret/私有文件；`_headers` 加 CSP/Permissions-Policy；`smoke:headers` 本地验证；`smoke:staging` 只接受显式 URL；`simulate:upgrade` 本地 Build A→B 模拟。**没有真实 URL/真机，不得写 STAGING_DEPLOYED/DEVICE_VERIFIED。**
+- **Capacitor**：`native/capacitor-pilot`（8.6.0、`webDir='../../dist'`、无 `server.url`）；本机无 JDK 21/Android SDK/Xcode，`NATIVE_BUILD_VERIFIED=BLOCKED`。
+- **测试**：`tests/release/localBackup.test.ts`（6）、`tests/platform/runtimePlatform.test.ts`（2）、`tests/content/round18Release.test.ts`（6）、`tests/tablet/round18-release.spec.ts`（3）；全量 607/183/3。
+
 ## 6. 硬性约束（违反其中任何一条 = 返工）
 
 1. **不得伪造真题内容**：不复制/改写题干、图片、答案；不猜高考答案；真题索引永久保留“未在线复核”。
@@ -322,6 +333,8 @@ Page（编排、持久化、预设、草稿编辑）
 13. **来源状态必须真实**：原创案例标 `original_case`，不冒充真题；真题只在 `verification` 与 `rights` 都满足时才可展示受版权材料；不抓取/镜像未授权题库。
 14. **整题完成必须同舞台**：至少同一坐标系、统一 `tGlobal`、真实事件与状态连续性；多个不连续预设跳转只能标 `partial_stage`，不能计入 FULL。答案依赖参数变化时必须重算或标 `needs_review`，不得沿用旧数值。
 15. **逐问解析不是结果表**：每个小问必须有方程建立、正方向、边界/初值、代数/求解、单位与物理解释；公式可复制，中文在公式外；不得用引擎输出反填成唯一“独立证明”。
+16. **发布状态必须分开**：没有真实 URL + 线上 smoke 不得写 `STAGING_DEPLOYED`；没有真机日志不得写 `DEVICE_VERIFIED`；没有 Gradle/Xcode 产物不得写 `NATIVE_BUILD_VERIFIED`。CDP/headless 只算 `SIMULATED`。
+17. **原生 pilot 不污染主产品**：Capacitor 仅在 `native/capacitor-pilot`，`webDir='../../dist'`，禁止 `server.url` 远程伪装离线；原生 WebView 与网站/PWA 数据不自动共享，迁移必须使用完整本地备份。
 
 ---
 
@@ -338,7 +351,7 @@ Page（编排、持久化、预设、草稿编辑）
 | 内容 | 分步填空题、教师自定义预设/题目导入、手写批注 | 未做 | 独立 feature 级任务 |
 | 验收 | 真机 iPadOS Safari / Android Chrome | **NOT_TESTED** | 用 `docs/CLASSROOM_DEVICE_QA.md` 逐项记录；CDP/无头结果只能标 `SIMULATED` |
 | 部署 | 公网 HTTPS + PWA 安装 | **BLOCKED**（无托管授权） | 获得授权后按 `docs/DEPLOYMENT_STAGING.md` 发布、验证深链接/离线/更新/回滚；不要编造 URL |
-| 内容 | 8 个原创整题案例 | **完成**（Round 16） | 新增案例需过 `problemCases.test.ts`、`wholeProblem.test.ts` 与来源/授权约束 |
+| 内容 | 9 个内置整题案例（C01–C08 + A17-01） | **完成**（Round 16/17） | 新增案例需过 `problemCases.test.ts`、`wholeProblem.test.ts` 与来源/授权约束 |
 
 ---
 
@@ -393,7 +406,7 @@ Page（编排、持久化、预设、草稿编辑）
 - `docs/EXAM_SOURCES.md` — 真题来源与核验状态（全部未在线复核）。
 - `docs/EXAM_SOURCE_AUDIT.md` — Round 15/16 逐条来源/授权审计、实际检索矩阵与未解决证据。
 - `docs/PROBLEM_CASE_SCHEMA.md` — 案例类型、来源/授权字段、安全注入规则与作者检查清单。
-- `docs/CASE_MODEL_MAPPING.md` — 8 个案例到真实模型/预设/锚点的映射。
+- `docs/CASE_MODEL_MAPPING.md` — 8 个整题底座 + A17-01 到真实模型/预设/锚点的映射。
 - `docs/DEPLOYMENT_STAGING.md` — 静态 HTTPS 发布步骤、验收、回滚与 BLOCKED 状态。
 - `docs/CLASSROOM_DEVICE_QA.md` — 真机矩阵、15 分钟暖机脚本、PASS/FAIL/BLOCKED/NOT_TESTED 模板。
 - `docs/DECISIONS.md` — 决策记录（D29 I05；D30 I06；D31 I07；D32 P08；D33 I08；D34 学习路线；D35 题目案例；D36 静态部署/设备诊断）。

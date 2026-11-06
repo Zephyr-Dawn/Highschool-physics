@@ -317,6 +317,8 @@ test('offline reload keeps teacher drafts, legacy scenes, answer progress and ca
   expect(persisted.cases).toContain('legacy-case-progress');
   await page.screenshot({ path: 'docs/screenshots/round17-offline-teacher.png', fullPage: false });
 
+  await page.goto('/#/progress');
+  await expect(page.getByTestId('local-backup-panel')).toBeVisible();
   await page.goto(teacherUrl);
   await expect(page.getByTestId('teacher-editor')).toBeVisible();
   await expect(page.getByTestId('teacher-editor-status')).toContainText('仿真已验证');

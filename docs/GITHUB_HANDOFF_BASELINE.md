@@ -4,6 +4,8 @@
 目标仓库：`https://github.com/Zephyr-Dawn/Highschool-physics`  
 本轮：Round 18.5 — 稳定基线冻结、GitHub 私有仓库、`ai-studio-dev`、CI 与 AI Studio 交接。
 
+> **2026-11-06 用户更新：** 项目已提交 GitHub 作为备份；Round 18 开发期间**不执行任何 git 操作**。本文的 Git 状态/授权表是审计时快照，不代表当前远端状态；当前工作以本地代码、`ROUND18_QA.md` 和用户实际仓库为准。
+
 ## 1. 初始 Git 状态（审计时）
 
 | 项目 | 实际值 |

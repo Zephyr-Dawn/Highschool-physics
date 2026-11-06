@@ -149,7 +149,7 @@ export function TeacherProblemListPage() {
           <h1>把一道复杂电磁题，变成同一舞台上的连续实验</h1>
           <p className="page-lede">
             从白名单模板创建题目，编辑题干、逐问推导、参数变式与答案绑定。私有草稿只保存在当前浏览器；
-            浏览器清理存储会丢失草稿，请主动导出备份。题目可通过引擎检查，但不会被自动标成官方真题或已获转载授权。
+            浏览器清理存储会丢失草稿，请主动导出题包或使用 <Link to="/progress">我的记录 → 完整本地数据备份</Link>。题目可通过引擎检查，但不会被自动标成官方真题或已获转载授权。
           </p>
           <div className="teacher-boundary-row">
             <span className="status-pill">本机私有</span>
@@ -286,7 +286,7 @@ export function TeacherProblemListPage() {
         )}
         <p className="teacher-storage-note">
           <Icon name="info" size={15} />
-          本地存储容量有限；大型图片不应写入草稿。清理浏览器站点数据会删除这些草稿，请定期导出 JSON 备份。
+          本地存储容量有限；大型图片不应写入草稿。清理浏览器站点数据会删除这些草稿，请定期导出题包，或在 <Link to="/progress">我的记录</Link> 导出包含场景、答题与教师草稿的完整备份。
         </p>
       </section>
     </div>

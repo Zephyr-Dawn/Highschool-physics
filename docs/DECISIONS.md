@@ -387,3 +387,25 @@
 5. **答案不持久化旧基线**：编译时从当前求解器重新取值，教师题判题依赖覆盖全部变式键，避免参数变化后的陈旧答案。
 6. **验证与权利分离**：`simulation_verified` 不提升 `sourceReview` 或 `rights`；未获授权真题只允许本机私有预览。
 7. **发布诚实**：新增 release manifest 等本地交付物，但没有托管授权，HTTPS 仍 `BLOCKED`；没有真机，硬件项仍 `NOT_TESTED`。
+
+## D39 发布门禁：变式推导默认折叠 + 完整本地备份（2026-11-06）
+
+**选择**：
+- 当某问的答案依赖参数被变式改变时，整题工作台默认折叠标准题设推导；学生/教师必须显式点击“仍查看标准推导（仅参考）”才看到旧文本，参考值与判题继续使用当前求解器结果，无唯一值返回 `needs_review`。
+- “我的记录”新增完整本地备份：场景、132 题、案例进度、教师草稿、讲解/模式、设备自测；排除临时案例备份/返回上下文；按同名键覆盖、预览确认、写入失败回滚，不调用 `localStorage.clear()`。
+- 备份是人工迁移，不是云同步；Web/PWA/Capacitor WebView 不自动共享数据。
+
+**原因**：发布后最难解释的错误是“旧标准推导被当作当前答案”，以及教师草稿/场景在换设备或原生壳中丢失。默认折叠与可恢复备份能把风险降到可说明、可恢复。
+
+**代价**：教师/学生需要多一次点击才能查看标准推导；备份文件可能包含教师私有题目，必须由用户妥善保管；跨 origin 迁移仍需人工操作。
+
+## D40 Capacitor 作为隔离 Pilot，不替代 PWA 主线（2026-11-06）
+
+**选择**：
+- 主产品保持 Web/PWA；`native/capacitor-pilot` 仅做技术验证，固定 Capacitor 8.6.0，`webDir='../../dist'`，不使用 `server.url`，不添加无关权限/插件。
+- 运行时检测区分 browser/PWA/Capacitor；`isNativeShell` 时跳过 Service Worker 注册，浏览器/PWA 保持 SW。
+- 本机无 Android SDK/现代 JDK/Xcode：不生成 APK/IPA，`NATIVE_BUILD_VERIFIED=BLOCKED`；只有真实 Gradle/Xcode 日志和真机日志才能升级状态。
+
+**原因**：直接重写 Flutter/RN 会重复 16 个物理求解器并引入迁移风险；Capacitor 能最大复用现有 React/Vite，但 WebView 的存储、SW、WebGL、软键盘和文件导出必须实测，不能凭“生成 android 文件夹”宣称完成。
+
+**代价**：原生路线需要新的构建链、签名、商店维护与 WebView QA；在获得工具链/设备前，原生只停留在配置与文档层。

@@ -1,7 +1,7 @@
 # 原生 App 路线决策
 
 日期：2026-11-06  
-状态：`NATIVE_BUILD_VERIFIED = BLOCKED`；本轮只做工程评估，不提交原生目录。
+状态（Round 18）：`CAPACITOR_CONFIG_READY`；`NATIVE_BUILD_VERIFIED = BLOCKED`。`native/capacitor-pilot` 已加入隔离配置（8.6.0、`webDir='../../dist'`、无 `server.url`），但本机无 Android SDK/现代 JDK/Xcode，未生成 APK/IPA。
 
 ## 决策
 
@@ -23,3 +23,11 @@
 - 不得为原生试验改动 `main` 的 Service Worker、hash 路由、数据 schema；
 - 没有真实构建日志不写 `NATIVE_BUILD_VERIFIED`；
 - 没有真机不写 `DEVICE_VERIFIED`。
+
+
+## Round 18 更新
+
+- 已增加 `src/platform/runtimePlatform.ts`：browser/PWA/Capacitor 检测；原生壳跳过 SW。
+- 已增加 `native/capacitor-pilot`：固定 Capacitor 8.6.0，不污染根 `package.json`/PWA；教师草稿不进入 native assets。
+- 本机 JDK 仅 8、无 Android SDK/adb/Gradle；Windows 无 Xcode。`ANDROID_DEBUG_BUILT = BLOCKED`、`IOS_DEV_BUILD = BLOCKED`、真机 `NOT_TESTED`。
+- 只有真实 Gradle/Xcode 日志和真机日志才能升级 `NATIVE_BUILD_VERIFIED`/设备状态。

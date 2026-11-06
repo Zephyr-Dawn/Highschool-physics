@@ -28,6 +28,8 @@ Round 17 新增两条并行交付：
 - **教师题目工作台（Track A）**：`/#/teacher/problems` 支持本机私有草稿、A17 模板、复制内置案例、导入/导出题包、逐问推导/提示/答案绑定、已注册参数变式与来源/权利独立标注。A17-01 在**同一舞台、统一全局时间**完成电场加速→有限磁场→无场漂移→屏幕，两个状态交接点由真实求解器连续传递；A17-02 使用 I07 同一引擎展示感应电流、挡板冲击与焦耳热分账。教师可编辑题目但不执行任意代码，核心草稿只保存在 `emplab.teacher-problems.v1`。
 - **发布与真实设备验收（Track B）**：静态构建自检生成 `dist/release-manifest.json`（文件哈希清单）；设备诊断升级为 source-labelled schema v2，区分模拟与真机自述；PWA 离线/重载保留模型场景、132 题进度、案例进度与教师草稿。**真实外部 HTTPS 部署仍为 BLOCKED（无托管授权），没有公网 URL；真实 iPadOS/Android 仍为 NOT_TESTED。**
 
+Round 18 进入发布准备：变式下标准推导默认折叠；新增完整本地数据备份/迁移（场景、132 题、案例进度、教师草稿、设备自测）；运行时平台检测与 Capacitor 原生壳跳过 SW；静态包增加 buildId/SHA-256、secret/私有文件扫描、CSP/安全头、staging smoke、本地 Build A→B PWA 升级模拟。**外部 HTTPS 仍 BLOCKED（无托管授权），真实 iPad/Android 仍 NOT_TESTED，原生 APK/IPA 因缺 SDK/JDK/Xcode 仍 BLOCKED。** 详见 [ROUND18_QA](docs/ROUND18_QA.md)。
+
 ## GitHub / AI Studio 协作入口
 
 - 目标仓库：`https://github.com/Zephyr-Dawn/Highschool-physics`（推送状态与授权以 `docs/GITHUB_HANDOFF_BASELINE.md` 为准）。
@@ -36,7 +38,7 @@ Round 17 新增两条并行交付：
 - 分支同步守卫、ZIP fallback、PR/CI/回滚见 [docs/GIT_WORKFLOW.md](docs/GIT_WORKFLOW.md)；CI 与环境排障见 [docs/CI_RUNBOOK.md](docs/CI_RUNBOOK.md)；发布与真机清单见 [docs/RELEASE_CHECKLIST.md](docs/RELEASE_CHECKLIST.md)。
 - 用户于 2026-11-06 明确授权使用该 public 仓库；只提交经过审计的源代码、原创内容与脱敏文档，不提交教师/学生私有数据或凭据。
 
-## 当前真实状态（2026-11-05）
+## 当前真实状态（2026-11-06）
 
 | 能力 | 状态 |
 |---|---|
@@ -65,7 +67,9 @@ Round 17 新增两条并行交付：
 | **来源与授权分层（Round 15）** | 原创案例 `original_case/original/paper_and_solution_verified`；真题仅 `exam_reference/unverified/link_only`，`verifiedOnline` 与转载授权分离；审计见 [EXAM_SOURCE_AUDIT](docs/EXAM_SOURCE_AUDIT.md) |
 | **设备检测（Round 15/17）** | `/#/device-check`：安全本地诊断、WebGL 丢失/恢复、rAF 探针、12 项人工检查默认 `NOT_TESTED`、脱敏 JSON 导出；schema v2 区分 `simulated` / 真机自述，声明不含教师内容与答案 |
 | PWA 安装与离线缓存 | 已构建并通过无头 Chrome 离线实测（十六个模型、9 个案例、教师工作台/预览、设备检测、学习路线与 P01 3D 均可离线打开）；PWA 重载保留教师草稿与旧进度键；尚未在真实 iPad/Android 上验证 |
-| **静态 HTTPS 部署包（Round 15/17）** | 已提供 `netlify.toml`、`public/_headers`、`npm run verify:static`、`npm run preview:staging`；构建产出 `dist/release-manifest.json` 哈希清单；**外部部署 BLOCKED（无托管授权），没有公网 URL**，见 [DEPLOYMENT_STAGING](docs/DEPLOYMENT_STAGING.md) 与 [ROUND17_DEVICE_RELEASE_MATRIX](docs/ROUND17_DEVICE_RELEASE_MATRIX.md) |
+| **发布门禁（Round 18）** | 变式下标准推导默认折叠；完整本地备份/迁移（场景、132 题、案例、教师草稿、设备记录）；教师草稿不进入构建/PWA/precache；`smoke:headers` 验证 CSP/安全头 |
+| **原生 Pilot（Round 18）** | `native/capacitor-pilot`：Capacitor 8.6.0、`webDir='../../dist'`、无 `server.url`、原生壳跳过 SW；**无 Android SDK/JDK/Xcode，APK/IPA 未生成** |
+| **静态 HTTPS 部署包（Round 15/18）** | `netlify.toml`、CSP/安全头 `_headers`、`verify:static`（buildId + SHA-256 + secret/私有文件扫描）、`smoke:staging`、`smoke:headers`、`simulate:upgrade`；**外部部署 BLOCKED（无托管授权），没有公网 URL** |
 | **统一学习路线** | **已实现**：`/#/path` 两条学生路线、真实讲解/预设/练习深链、上一站/下一站、教师演示路径与模型精确筛选 |
 | P01/P04/P05/I01 | **已实现**：P01 3D 受力/3D 运动/2D 运动三子视图，P04 有限区域，P05 相反磁区，I01 B/面积/角度三模式；真实路由与练习回链 |
 | I04 时变磁场 | **已实现**：四种解析波形、折点显式处理、手动连续调磁、B/Φ/ε/I 联动图像与教师方向图层 |
@@ -75,7 +79,7 @@ Round 17 新增两条并行交付：
 | P01–P07 场景持久化 | **已实现**：P01 三维版本 2 场景与旧 P01 受力场景迁移；P02/P03/P04/P05/P06/P07 版本 2 场景；刷新后 t=0 重建，收藏/错题独立保留 |
 | 部署到公网 HTTPS | **BLOCKED**：构建/配置就绪，但无托管授权，未发布、无公网 URL |
 
-物理引擎与交互测试结果见 [docs/QA.md](docs/QA.md) 与 Round 16 实测 [docs/ROUND16_QA.md](docs/ROUND16_QA.md)，物理约定见 [docs/PHYSICS_SPEC.md](docs/PHYSICS_SPEC.md)，参数输入语法/单位/提交语义见 [docs/PARAMETER_INPUT_SPEC.md](docs/PARAMETER_INPUT_SPEC.md)，逐控件覆盖见 [docs/PARAMETER_INPUT_AUDIT.md](docs/PARAMETER_INPUT_AUDIT.md)。题目案例 schema 与作者规范见 [docs/PROBLEM_CASE_SCHEMA.md](docs/PROBLEM_CASE_SCHEMA.md)，案例-模型映射与锚点见 [docs/CASE_MODEL_MAPPING.md](docs/CASE_MODEL_MAPPING.md)，真题来源审计见 [docs/EXAM_SOURCE_AUDIT.md](docs/EXAM_SOURCE_AUDIT.md)，部署步骤见 [docs/DEPLOYMENT_STAGING.md](docs/DEPLOYMENT_STAGING.md)，课堂设备验收见 [docs/CLASSROOM_DEVICE_QA.md](docs/CLASSROOM_DEVICE_QA.md)。Round 12 历史交接总结见 [docs/ROUND11_5_ROUND12_AGENT_SUMMARY.md](docs/ROUND11_5_ROUND12_AGENT_SUMMARY.md)；P08 与 P06/P07 的去重审计见 [docs/P08_SCOPE_DECISION.md](docs/P08_SCOPE_DECISION.md)；16 模型学习路线与覆盖核验见 [docs/ROUND14_MODEL_COVERAGE_AUDIT.md](docs/ROUND14_MODEL_COVERAGE_AUDIT.md)；Round 15 基线见 [docs/ROUND15_BASELINE_AUDIT.md](docs/ROUND15_BASELINE_AUDIT.md)；Round 16 缺口见 [docs/ROUND16_GAP_AUDIT.md](docs/ROUND16_GAP_AUDIT.md)，整题契约见 [docs/WHOLE_PROBLEM_SIMULATION_SPEC.md](docs/WHOLE_PROBLEM_SIMULATION_SPEC.md)，逐问证据见 [docs/CASE_FULL_SOLUTION_AUDIT.md](docs/CASE_FULL_SOLUTION_AUDIT.md)，Round 16 最终 QA 见 [docs/ROUND16_QA.md](docs/ROUND16_QA.md)，Round 17 基线见 [docs/ROUND17_BASELINE_AUDIT.md](docs/ROUND17_BASELINE_AUDIT.md)，教师题目规范见 [docs/ROUND17_PROBLEM_AUTHORING_SPEC.md](docs/ROUND17_PROBLEM_AUTHORING_SPEC.md)，复合物理证明见 [docs/ROUND17_COMPOSITE_PHYSICS_PROOF.md](docs/ROUND17_COMPOSITE_PHYSICS_PROOF.md)，发布与真机矩阵见 [docs/ROUND17_DEVICE_RELEASE_MATRIX.md](docs/ROUND17_DEVICE_RELEASE_MATRIX.md)，Round 17 QA 见 [docs/ROUND17_QA.md](docs/ROUND17_QA.md)。最近五轮（Round 13–17）的交接总览见 [SUMMARY.md](SUMMARY.md)；要把工作交接给其他 agent（架构地图、验证命令、禁止事项、路线图），先读 [SUMMARY.md](SUMMARY.md) 与 [docs/AGENT_HANDOFF.md](docs/AGENT_HANDOFF.md)。
+物理引擎与交互测试结果见 [docs/QA.md](docs/QA.md) 与 Round 18 实测 [docs/ROUND18_QA.md](docs/ROUND18_QA.md)，物理约定见 [docs/PHYSICS_SPEC.md](docs/PHYSICS_SPEC.md)，参数输入语法/单位/提交语义见 [docs/PARAMETER_INPUT_SPEC.md](docs/PARAMETER_INPUT_SPEC.md)，逐控件覆盖见 [docs/PARAMETER_INPUT_AUDIT.md](docs/PARAMETER_INPUT_AUDIT.md)。题目案例 schema 与作者规范见 [docs/PROBLEM_CASE_SCHEMA.md](docs/PROBLEM_CASE_SCHEMA.md)，案例-模型映射与锚点见 [docs/CASE_MODEL_MAPPING.md](docs/CASE_MODEL_MAPPING.md)，真题来源审计见 [docs/EXAM_SOURCE_AUDIT.md](docs/EXAM_SOURCE_AUDIT.md)，部署步骤见 [docs/DEPLOYMENT_STAGING.md](docs/DEPLOYMENT_STAGING.md)，课堂设备验收见 [docs/CLASSROOM_DEVICE_QA.md](docs/CLASSROOM_DEVICE_QA.md)。Round 12 历史交接总结见 [docs/ROUND11_5_ROUND12_AGENT_SUMMARY.md](docs/ROUND11_5_ROUND12_AGENT_SUMMARY.md)；P08 与 P06/P07 的去重审计见 [docs/P08_SCOPE_DECISION.md](docs/P08_SCOPE_DECISION.md)；16 模型学习路线与覆盖核验见 [docs/ROUND14_MODEL_COVERAGE_AUDIT.md](docs/ROUND14_MODEL_COVERAGE_AUDIT.md)；Round 15 基线见 [docs/ROUND15_BASELINE_AUDIT.md](docs/ROUND15_BASELINE_AUDIT.md)；Round 16 缺口见 [docs/ROUND16_GAP_AUDIT.md](docs/ROUND16_GAP_AUDIT.md)，整题契约见 [docs/WHOLE_PROBLEM_SIMULATION_SPEC.md](docs/WHOLE_PROBLEM_SIMULATION_SPEC.md)，逐问证据见 [docs/CASE_FULL_SOLUTION_AUDIT.md](docs/CASE_FULL_SOLUTION_AUDIT.md)，Round 16 最终 QA 见 [docs/ROUND16_QA.md](docs/ROUND16_QA.md)，Round 17 基线见 [docs/ROUND17_BASELINE_AUDIT.md](docs/ROUND17_BASELINE_AUDIT.md)，教师题目规范见 [docs/ROUND17_PROBLEM_AUTHORING_SPEC.md](docs/ROUND17_PROBLEM_AUTHORING_SPEC.md)，复合物理证明见 [docs/ROUND17_COMPOSITE_PHYSICS_PROOF.md](docs/ROUND17_COMPOSITE_PHYSICS_PROOF.md)，发布与真机矩阵见 [docs/ROUND17_DEVICE_RELEASE_MATRIX.md](docs/ROUND17_DEVICE_RELEASE_MATRIX.md)，Round 17 QA 见 [docs/ROUND17_QA.md](docs/ROUND17_QA.md)，Round 18 QA 见 [docs/ROUND18_QA.md](docs/ROUND18_QA.md)，发布 runbook 见 [docs/ROUND18_STAGING_RUNBOOK.md](docs/ROUND18_STAGING_RUNBOOK.md)，数据迁移见 [docs/ROUND18_DATA_MIGRATION.md](docs/ROUND18_DATA_MIGRATION.md)，原生评估见 [docs/ROUND18_NATIVE_FEASIBILITY.md](docs/ROUND18_NATIVE_FEASIBILITY.md)。最近六轮（Round 13–18）的交接总览见 [SUMMARY.md](SUMMARY.md)；要把工作交接给其他 agent（架构地图、验证命令、禁止事项、路线图），先读 [SUMMARY.md](SUMMARY.md) 与 [docs/AGENT_HANDOFF.md](docs/AGENT_HANDOFF.md)。
 
 ## 本地启动
 
@@ -104,12 +108,15 @@ npm run preview          # 本地预览生产构建，默认 4173
 npm run test:tablet      # Playwright，对开发服务器做多视口/交互测试
 npm run test:pwa         # 先 build，再对 preview 做离线/PWA 测试
 npm run preview:staging  # 0.0.0.0:4174 生产预览（课堂/局域网）
-npm run verify:static    # build + 检查 dist 静态产物完整性
+npm run verify:static    # build + 检查 dist 静态产物完整性（含 secret/私有文件）
+npm run smoke:headers    # 本地应用 CSP/安全头后打开首页/A17/教师页
+npm run smoke:staging -- https://<真实 staging URL>  # 只接受显式 URL
+npm run simulate:upgrade # 本地 Build A→B SW 更新与数据保留模拟
 ```
 
 Playwright 使用本机 **Google Chrome 156 headless**（`channel: 'chrome'`）；CDP 触摸、无头帧率与 `vite preview` 都不是真实平板/公网验收。截图与证据见 [docs/ROUND15_QA.md](docs/ROUND15_QA.md) 和 [docs/screenshots](docs/screenshots)。
 
-Round 16 最终实测：`npm run typecheck` 通过；Vitest **556 / 556**（50 文件）；Playwright **172 / 172**；PWA **2 / 2**；`npm run verify:static` 输出 `Static build OK: 62 JS, 1 CSS, assets 4128.4 KiB`。生产构建入口 JS **337.32 kB（gzip 102.71 kB）**；案例详情 chunk **46.57 kB（gzip 15.13）**，案例会话 chunk **83.02 kB（gzip 27.36）**，CSS **131.81 kB（gzip 27.32 kB）**；PWA 预缓存 **134 项 / 4187.14 KiB**。P01ThreeDStage 仍约 978 kB（gzip 263 kB）且只在 P01 3D 中加载。无头 Chrome 数字仅作相对比较，不是真机 60 fps 结论。完整证据见 [ROUND16_QA](docs/ROUND16_QA.md) 与 [CASE_FULL_SOLUTION_AUDIT](docs/CASE_FULL_SOLUTION_AUDIT.md)。
+Round 18 最终实测：`npm run typecheck` 通过；Vitest **607 / 607**（57 文件）；Playwright **183 / 183**；PWA **3 / 3**；`npm run verify:static` 输出 `Static build OK: 72 JS, 1 CSS, assets 4249.4 KiB, 140 files`（release manifest schemaVersion 2 + buildId）。生产构建入口 JS **340.35 kB（gzip 103.65 kB）**；CSS **140.99 kB（gzip 28.84 kB）**；PWA 预缓存 **144 项 / 4308.13 KiB**。P01ThreeDStage 仍约 978 kB（gzip 263 kB）且只在 P01 3D 中加载。无头 Chrome 数字仅作相对比较，不是真机 60 fps 结论。完整证据见 [ROUND18_QA](docs/ROUND18_QA.md)。
 
 Round 17 最终实测：`npm run typecheck` 通过；Vitest **593 / 593**（54 文件）；Playwright **180 / 180**；PWA **3 / 3**；`npm run verify:static` 输出 `Static build OK: 71 JS, 1 CSS, assets 4239.4 KiB, 139 files` 并生成 `dist/release-manifest.json`。生产构建入口 JS **339.74 kB（gzip 103.33 kB）**，CSS **140.61 kB（gzip 28.78 kB）**；教师列表/编辑器/预览 chunk 分别为 **17.82 / 25.07 / 4.54 kB**；PWA 预缓存 **143 项 / 4298.11 KiB**。P01ThreeDStage 仍约 **978.52 kB（gzip 263.16 kB）** 且只在 P01 3D 中加载。以上 Playwright/PWA 数字均为 SIMULATED/headless，不是真机 60 fps 或真实 iPadOS/Android 通过。完整证据见 [ROUND17_QA](docs/ROUND17_QA.md)、[ROUND17_COMPOSITE_PHYSICS_PROOF](docs/ROUND17_COMPOSITE_PHYSICS_PROOF.md) 与 [ROUND17_DEVICE_RELEASE_MATRIX](docs/ROUND17_DEVICE_RELEASE_MATRIX.md)。
 
@@ -357,14 +364,15 @@ docs/            需求、物理规范、内容映射、来源审计、案例 sc
 
 ## 尚未完成 / 下一步
 
-1. Phase 1 已完成十六个可运行模型（P01–P08、I01–I08）+ 8 个原创整题案例；下一轮优先做真实平板课堂验收与案例教学试点。
+1. Phase 1 已完成十六个可运行模型（P01–P08、I01–I08）+ 9 个原创整题案例；下一轮优先做真实平板课堂验收与案例教学试点。
 2. 真题复核与授权材料流程：5 条索引全部 `unverified` / `link_only`；对照权威原卷与至少一个独立可信解析、取得明确授权后，才可展示更多内容。
-3. **真实外部 HTTPS 部署 BLOCKED（无托管账号/站点授权）**；获得授权后按 `docs/DEPLOYMENT_STAGING.md` 发布并验证，不得用 localhost 预览冒充公网部署。
-4. 真实 iPadOS Safari / Android Chrome 设备、离线首开、横竖屏切换、软键盘、WebGL 上下文恢复与低性能帧率实测；当前全部 `NOT_TESTED`，自动化/CDP 结果标 `SIMULATED`。
-5. 教师自定义预设、分步填空/解答题、手写批注属于后续阶段。
-6. 可选的题库继续扩展；当前 132 题覆盖 P01–P08 与 I01–I08，8 个题目案例单独计数，不加入 132 题。
-7. **P04/P05/P07 与 P01 3D 都必须在真实 iPadOS Safari / Android Chrome 上验收**：单指旋转、双指缩放、手柄拖动、第二指取消、狭缝/屏幕触控、横竖屏、WebGL 上下文恢复、离线首开、五粒子教师层与发热/续航。无头 Chrome 的 rAF 数字不是真机 60 fps 证据。
-8. P01 3D chunk 约 978 kB（gzip 263 kB），虽然仅在 3D 视图加载，仍可评估 three/R3F 的进一步按需拆分；I04/P01/I01/I05/I06 首屏 KaTeX 与图表仍有优化空间。
-9. P07 首版是二维 x–y、竖直分区与理想薄板；不支持任意多边形、时变场、衍射、粒子碰撞、空间电荷、探测器噪声或相对论修正。P06 分段场与 P07 都可继续扩展这些方向。
+3. **真实外部 HTTPS 部署 BLOCKED（无托管账号/站点授权）**；获得授权后按 `docs/ROUND18_STAGING_RUNBOOK.md` 发布并运行 `smoke:staging`，不得用 localhost 预览冒充公网部署。
+4. **原生 APK/IPA BLOCKED**：本机无 Android SDK/现代 JDK/Xcode；`native/capacitor-pilot` 已就绪，详见 `docs/ROUND18_NATIVE_FEASIBILITY.md`。
+5. 真实 iPadOS Safari / Android Chrome 设备、离线首开、横竖屏切换、软键盘、WebGL 上下文恢复与低性能帧率实测；当前全部 `NOT_TESTED`，自动化/CDP 结果标 `SIMULATED`。
+6. 教师自定义预设、分步填空/解答题、手写批注属于后续阶段。
+7. 可选的题库继续扩展；当前 132 题覆盖 P01–P08 与 I01–I08，9 个题目案例单独计数，不加入 132 题。
+8. **P04/P05/P07 与 P01 3D 都必须在真实 iPadOS Safari / Android Chrome 上验收**：单指旋转、双指缩放、手柄拖动、第二指取消、狭缝/屏幕触控、横竖屏、WebGL 上下文恢复、离线首开、五粒子教师层与发热/续航。无头 Chrome 的 rAF 数字不是真机 60 fps 证据。
+9. P01 3D chunk 约 978 kB（gzip 263 kB），虽然仅在 3D 视图加载，仍可评估 three/R3F 的进一步按需拆分；I04/P01/I01/I05/I06 首屏 KaTeX 与图表仍有优化空间。
+10. P07 首版是二维 x–y、竖直分区与理想薄板；不支持任意多边形、时变场、衍射、粒子碰撞、空间电荷、探测器噪声或相对论修正。P06 分段场与 P07 都可继续扩展这些方向。
 
 本项目为教学辅助工具，不替代教师讲解、实验操作与正式教材。所有未核验内容在界面中明确标注“待核验 / 未在线复核”。

@@ -7406,3 +7406,37 @@ button:disabled {
     align-self: start;
   }
 }
+
+/* Round 18 · local backup panel */
+.backup-panel {
+  margin-top: 18px;
+}
+
+.backup-message {
+  margin: 10px 0;
+  padding: 9px 11px;
+  border-radius: 9px;
+  background: #ecfdf5;
+  color: #047857;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.backup-preview {
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #f8fafc;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.backup-preview h3 {
+  margin: 0 0 6px;
+  font-size: 15px;
+}
+
+.backup-preview p {
+  margin: 4px 0;
+}

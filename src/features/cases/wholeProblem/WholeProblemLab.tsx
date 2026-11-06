@@ -224,6 +224,7 @@ export function WholeProblemLab({ item, teacherMode, initialParts, onPartsChange
   );
   const progressRef = useRef<Record<string, CasePartProgress>>({ ...(initialParts ?? {}) });
   const [teacherLocal, setTeacherLocal] = useState(false);
+  const [staleRevealedByPart, setStaleRevealedByPart] = useState<Record<string, boolean>>({});
   const hintsRevealed = hintsByPart[part.id] ?? 0;
   const partRevealed = revealedByPart[part.id] === true;
   const showSolution = teacherMode || teacherLocal || partRevealed;
@@ -287,6 +288,7 @@ export function WholeProblemLab({ item, teacherMode, initialParts, onPartsChange
   const changeOverride = (key: string, value: number) => {
     setOverrides((previous) => ({ ...previous, [key]: value }));
     setAnswers({});
+    setStaleRevealedByPart({});
     setSelectedEventId(null);
     const liveAEdit = item.id === 'case-c02-alternating-time' && key === 'aSpeedMps';
     if (!liveAEdit) {
@@ -298,6 +300,7 @@ export function WholeProblemLab({ item, teacherMode, initialParts, onPartsChange
   const resetVariation = () => {
     setOverrides({});
     setAnswers({});
+    setStaleRevealedByPart({});
     setSelectedEventId(null);
     clock.pause();
     clock.setTime(0);
@@ -315,6 +318,7 @@ export function WholeProblemLab({ item, teacherMode, initialParts, onPartsChange
   const dependencyChanged = part.answerSpec.dependsOn.some(
     (key) => Math.abs((model.parameterValues[key] ?? 0) - (model.baselineValues[key] ?? 0)) > 1e-12,
   );
+  const staleDerivationHidden = dependencyChanged && showSolution && staleRevealedByPart[part.id] !== true;
   const currentAnswer = model.answers[part.answerSpec.quantity]?.value ?? null;
   const displayedReference = dependencyChanged
     ? currentAnswer
@@ -486,29 +490,46 @@ export function WholeProblemLab({ item, teacherMode, initialParts, onPartsChange
               </div>
               {showSolution && dependencyChanged ? (
                 <p className="wpl-warning" role="note" data-testid="wpl-derivation-stale">
-                  当前为变式：以下推导中的数值和中间结果属于标准题设，不能当作当前答案；参考值与判题已按当前求解器重算。
+                  当前为变式：本问推导中的数值和中间结果属于标准题设，参考值与判题已按当前求解器重算。标准推导默认折叠，避免误读。
                 </p>
               ) : null}
-              {showSolution ? (
-                <ol className="wpl-steps">
-                  {part.derivationSteps.map((step) => (
-                    <li key={step.id} data-testid={`wpl-step-${step.id}`}>
-                      <strong>{step.title}</strong>
-                      <p>{step.explanation}</p>
-                      <MathTex block>{step.formula}</MathTex>
-                      {step.assumptions?.length ? <p className="wpl-muted">假设：{step.assumptions.join('；')}</p> : null}
-                      {step.referenceEventId ? (
-                        <button type="button" className="chip-button" onClick={() => selectEvent(step.referenceEventId!)}>
-                          定位事件 {step.referenceEventId}
-                        </button>
-                      ) : null}
-                    </li>
-                  ))}
-                </ol>
+              {staleDerivationHidden ? (
+                <div className="wpl-masked" data-testid="wpl-stale-derivation-guard">
+                  <p>标准题设推导已折叠；它不适用于当前变式。</p>
+                  <button
+                    type="button"
+                    className="secondary-button"
+                    onClick={() => setStaleRevealedByPart((previous) => ({ ...previous, [part.id]: true }))}
+                    data-testid="wpl-reveal-stale-derivation"
+                  >
+                    仍查看标准推导（仅参考）
+                  </button>
+                </div>
+              ) : showSolution ? (
+                <>
+                  {dependencyChanged ? (
+                    <p className="wpl-muted" data-testid="wpl-stale-derivation-visible">正在查看标准题设推导的参考文本；当前数值以右侧参考值和判题结果为准。</p>
+                  ) : null}
+                  <ol className="wpl-steps">
+                    {part.derivationSteps.map((step) => (
+                      <li key={step.id} data-testid={`wpl-step-${step.id}`}>
+                        <strong>{step.title}</strong>
+                        <p>{step.explanation}</p>
+                        <MathTex block>{step.formula}</MathTex>
+                        {step.assumptions?.length ? <p className="wpl-muted">假设：{step.assumptions.join('；')}</p> : null}
+                        {step.referenceEventId ? (
+                          <button type="button" className="chip-button" onClick={() => selectEvent(step.referenceEventId!)}>
+                            定位事件 {step.referenceEventId}
+                          </button>
+                        ) : null}
+                      </li>
+                    ))}
+                  </ol>
+                </>
               ) : (
                 <p className="wpl-masked" data-testid="wpl-solution-masked">推导已遮罩。先预测、再在舞台上验证；需要时展开本问推导。</p>
               )}
-              {showSolution ? (
+              {showSolution && !staleDerivationHidden ? (
                 <div className="wpl-proof">
                   <strong>独立验算</strong>
                   <p>{part.independentProofRef}</p>

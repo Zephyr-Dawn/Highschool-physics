@@ -7,18 +7,20 @@
 
 `LOCAL_BASELINE_VERIFIED` / `GITHUB_PUSHED` / `AI_STUDIO_BRANCH_READY` / `CI_VERIFIED` / `AI_STUDIO_IMPORT_VERIFIED` / `STAGING_DEPLOYED` / `NATIVE_BUILD_VERIFIED` / `REAL_TABLET_VERIFIED`；无证据写 `BLOCKED` 或 `NOT_TESTED`。
 
-当前：`LOCAL_BASELINE_VERIFIED`（见 `GITHUB_HANDOFF_BASELINE.md`），其余待授权/待真实环境。
+当前（Round 18）：**Web `CODE_READY`**（本地 607/183/3、verify:static、CSP smoke、PWA upgrade simulation 通过）；`STAGING_DEPLOYED=BLOCKED`、`DEVICE_VERIFIED=NOT_TESTED`、`NATIVE_BUILD_VERIFIED=BLOCKED`。用户已备份到 GitHub，但本轮**不执行 git 操作**；Git/CI/AI Studio 状态以用户实际仓库为准。
 
 ## 2. 代码与 CI
 
 - [ ] `main` 与 `ai-studio-dev` 同基线 SHA；无直接 push main。
 - [ ] PR 分支保护已启用，`verify` 检查必需。
 - [ ] `npm run typecheck` 通过。
-- [ ] `npx vitest run` 593/593（以当次实际为准）。
-- [ ] `npx playwright test` 180/180（SIMULATED）。
+- [ ] `npx vitest run` 607/607（以当次实际为准）。
+- [ ] `npx playwright test` 183/183（SIMULATED）。
 - [ ] `npm run test:pwa` 3/3。
 - [ ] `npm run build` 通过。
-- [ ] `npm run verify:static` 通过并生成 `dist/release-manifest.json`。
+- [ ] `npm run verify:static` 通过并生成 schemaVersion 2 `release-manifest.json`（buildId + SHA-256 + secret/私有文件扫描）。
+- [ ] `npm run smoke:headers` 通过（CSP/安全头下首页/A17/教师页）。
+- [ ] `npm run simulate:upgrade` 通过（本地 SIMULATED，非线上升级）。
 - [ ] 安全扫描无高置信度凭据；没有未授权真题内容。
 - [ ] 16 模型、132 题、C01–C08 + A17-01、教师工作台、P01 3D、数学 parser 保留。
 
@@ -38,6 +40,8 @@
 - [ ] 更新不调用 `localStorage.clear()`、不清所有缓存。
 - [ ] 旧场景键、`emplab.progress.v1`、`emplab.cases.progress.v1`、`emplab.teacher-problems.v1` 保留。
 - [ ] 教师草稿不进入构建、precache、日志或诊断。
+- [ ] “我的记录 → 完整本地数据备份”可导出/预览/恢复；恢复不调用 `localStorage.clear()`。
+- [ ] 变式下标准推导默认折叠，参考值/判题用当前求解器。
 
 ## 5. 真实设备
 
@@ -50,7 +54,8 @@
 
 - [ ] Android SDK/JDK/Android Studio 条件已具备。
 - [ ] macOS/Xcode/签名条件已具备（iOS）。
-- [ ] 在独立 `native-pilot/*` 分支执行 Capacitor；不修改 main 的物理/PWA/schema。
+- [ ] `native/capacitor-pilot` 已完成 Capacitor 8.6.0 配置；不得在根 App/PWA 中混入原生目录。
+- [ ] 无 JDK 21/Android SDK/Xcode 时保持 `ANDROID_DEBUG_BUILT=BLOCKED`、`IOS_DEV_BUILD=BLOCKED`。
 - [ ] WebView 新 origin 的草稿/进度通过 JSON 导入导出迁移。
 - [ ] 只有真实 Gradle/Xcode 日志才写 `NATIVE_BUILD_VERIFIED`。
 

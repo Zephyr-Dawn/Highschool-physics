@@ -1,0 +1,20 @@
+{
+  "name": "em-physics-lab-capacitor-pilot",
+  "private": true,
+  "version": "0.1.0-round18",
+  "type": "module",
+  "description": "Isolated Capacitor pilot for the existing EM Physics Lab dist build. Not the primary product.",
+  "scripts": {
+    "add:android": "cap add android",
+    "sync": "cap sync android",
+    "open:android": "cap open android"
+  },
+  "dependencies": {
+    "@capacitor/android": "8.6.0",
+    "@capacitor/core": "8.6.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "8.6.0",
+    "typescript": "5.9.3"
+  }
+}

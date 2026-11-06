@@ -18,7 +18,24 @@
 
 **这不是真实平板测试。** 浏览器视口为 CSS 像素模拟；触摸拖动/双指缩放使用 Chrome DevTools Protocol 合成 touch 事件。真实 iPadOS Safari / Android Chrome、系统字体缩放、安全区与真机 GPU/触控手感尚未验证。
 
-## 0. Round 17 最新实测（2026-11-05）
+## 0. Round 18 最新实测（2026-11-06）
+
+完整发布/原生报告见 [ROUND18_QA.md](ROUND18_QA.md)；发布 runbook 见 [ROUND18_STAGING_RUNBOOK.md](ROUND18_STAGING_RUNBOOK.md)；数据迁移见 [ROUND18_DATA_MIGRATION.md](ROUND18_DATA_MIGRATION.md)；原生评估见 [ROUND18_NATIVE_FEASIBILITY.md](ROUND18_NATIVE_FEASIBILITY.md)。
+
+| 命令 | Round 18 实测 |
+|---|---|
+| `npm run typecheck` | 通过 |
+| `npx vitest run` | **607 / 607 通过**，57 文件 |
+| `npx playwright test` | **183 / 183 通过**（SIMULATED），约 6.4 分钟 |
+| `npm run test:pwa` | **3 / 3 通过**；PWA 144 项 / 4308.13 KiB |
+| `npm run build` | 入口 340.35 kB（gzip 103.65）；CSS 140.99 kB（gzip 28.84） |
+| `npm run verify:static` | 通过：`72 JS, 1 CSS, assets 4249.4 KiB, 140 files, sha 53e1bb251445`；release manifest schemaVersion 2 |
+| `npm run smoke:headers` | 通过：CSP/安全头下首页/A17/教师页无控制台错误 |
+| `npm run simulate:upgrade` | **PWA_UPGRADE_SIMULATED_PASS**；真实线上升级仍 BLOCKED |
+
+**Round 18 新增**：变式推导默认折叠；统一本地数据备份/迁移（场景、132 题、案例、教师草稿、设备记录）；运行时平台检测；静态包 secret/私有文件/构建 ID 硬化；CSP/安全头；staging smoke 脚本；Capacitor pilot 配置（无 SDK，APK BLOCKED）。外部 HTTPS、真机、原生构建仍按状态矩阵保持 `BLOCKED`/`NOT_TESTED`。
+
+## 0A. Round 17 历史实测（2026-11-05）
 
 完整分轨报告见 [ROUND17_QA.md](ROUND17_QA.md)；教师规范见 [ROUND17_PROBLEM_AUTHORING_SPEC.md](ROUND17_PROBLEM_AUTHORING_SPEC.md)；物理证明见 [ROUND17_COMPOSITE_PHYSICS_PROOF.md](ROUND17_COMPOSITE_PHYSICS_PROOF.md)；发布/真机见 [ROUND17_DEVICE_RELEASE_MATRIX.md](ROUND17_DEVICE_RELEASE_MATRIX.md)。
 
@@ -37,7 +54,7 @@
 
 **Track B**：release manifest 与 source-labelled 设备诊断；PWA 离线重载保留教师草稿、场景键、132 题进度键与案例进度。外部 HTTPS **BLOCKED**，真实 iPadOS/Android **NOT_TESTED**，自动化只算 `SIMULATED`。
 
-## 0. Round 16 历史实测（2026-11-05）
+## 0B. Round 16 历史实测（2026-11-05）
 
 完整分轨报告见 [ROUND16_QA.md](ROUND16_QA.md)；整题契约见 [WHOLE_PROBLEM_SIMULATION_SPEC.md](WHOLE_PROBLEM_SIMULATION_SPEC.md)；逐问证据见 [CASE_FULL_SOLUTION_AUDIT.md](CASE_FULL_SOLUTION_AUDIT.md)。
 
@@ -57,7 +74,7 @@
 
 **修复**：C06 重复事件 ID；C08 接触焦耳热由错误的 1 J 修正为求解器与独立推导一致的 **0.75 J**；C03 屏幕窗口变化不把几何交点误报为命中。未删除/跳过旧断言。
 
-## 0A. Round 15 历史实测（2026-11-04）
+## 0C. Round 15 历史实测（2026-11-04）
 
 以下为 Round 15 历史实测；最新 Round 16 见 §0，完整分轨报告见 [ROUND15_QA.md](ROUND15_QA.md)。
 

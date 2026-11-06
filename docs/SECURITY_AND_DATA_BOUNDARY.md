@@ -55,3 +55,11 @@
 2. 立即轮换/吊销对应凭据；
 3. 若已在 Git 历史，停止推送并评估 `git filter-repo`/BFG 等历史清理；清理需要用户明确授权；
 4. 不重写已发布的 `main` 历史，除非用户明确批准并完成协作方通知。
+
+## 7. Round 18 发布加固与迁移边界
+
+- **完整本地备份**：`/#/progress` 的“完整本地数据备份”可导出场景、132 题、案例进度、教师草稿、讲解/模式、设备自测为 `emplab.local-backup` v1；导入先预览，按同名键覆盖，失败回滚，不调用 `localStorage.clear()`。备份可能包含教师私有题目，禁止公开上传。
+- **跨容器边界**：网站、PWA 主屏幕、Capacitor WebView 是不同 origin/存储容器；必须人工导出/导入，不存在自动同步。原生包不预置教师草稿或学生进度。
+- **静态包安全**：`verify:static` 禁止 `.map`/`.env`/证书/密钥/签名文件，扫描高置信度 secret，写入带 `buildId`/SHA-256 的 release manifest；`_headers` 增加 CSP、`X-Content-Type-Options`、`X-Frame-Options`、`Referrer-Policy`、`Permissions-Policy`；`smoke:headers` 用本地静态服务器验证首页/A17/教师页。
+- **发布状态**：没有真实 HTTPS URL + smoke 不得写 `STAGING_DEPLOYED`；没有真机证据不得写 `DEVICE_VERIFIED`；没有真实 Gradle/Xcode 产物不得写 `NATIVE_BUILD_VERIFIED`。
+- **教师/学生边界**：教师入口不是服务端认证；本地私有草稿在同一浏览器用户间可见；师生共用平板需说明风险。5 条真题继续 `unverified/link_only`，未授权内容不得进入构建、备份公开分享或原生资产。

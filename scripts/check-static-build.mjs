@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { extname, join } from 'node:path';
 
 const dist = 'dist';
 const required = [
@@ -17,6 +17,41 @@ const missing = required.filter((file) => !existsSync(join(dist, file)));
 if (missing.length > 0) {
   console.error('Static build missing:', missing.join(', '));
   process.exit(1);
+}
+
+const forbiddenFiles = [];
+const forbiddenExtensions = new Set(['.map', '.env', '.pem', '.key', '.p12', '.jks', '.keystore', '.mobileprovision', '.log']);
+function walk(dir, relative = '') {
+  for (const name of readdirSync(dir)) {
+    const full = join(dir, name);
+    const rel = relative ? `${relative}/${name}` : name;
+    const stats = statSync(full);
+    if (stats.isDirectory()) walk(full, rel);
+    else if (forbiddenExtensions.has(extname(name).toLowerCase()) || name === '.env') forbiddenFiles.push(rel);
+  }
+}
+walk(dist);
+if (forbiddenFiles.length > 0) {
+  console.error('Static build contains forbidden private/source-map artifacts:', forbiddenFiles.join(', '));
+  process.exit(1);
+}
+
+const secretPatterns = [
+  /gh[pousr]_[A-Za-z0-9]{20,}/,
+  /NETLIFY_AUTH_TOKEN\s*=/,
+  /AIza[0-9A-Za-z_-]{35}/,
+  /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/,
+  /sk-[A-Za-z0-9]{20,}/,
+];
+function scanSecrets(file, relative) {
+  if (!/[\.](?:js|css|html|json|webmanifest|svg)$/i.test(relative) && relative !== '_headers') return;
+  const text = readFileSync(file, 'utf8');
+  for (const pattern of secretPatterns) {
+    if (pattern.test(text)) {
+      console.error(`Static build contains a high-confidence secret pattern in ${relative}`);
+      process.exit(1);
+    }
+  }
 }
 
 const assets = readdirSync(join(dist, 'assets')).sort();
@@ -59,6 +94,12 @@ if (!headers.includes('/sw.js') || !headers.includes('Cache-Control: no-cache'))
   console.error('_headers does not protect the service worker from stale caching');
   process.exit(1);
 }
+for (const requiredHeader of ['Content-Security-Policy', 'X-Content-Type-Options', 'Referrer-Policy', 'Permissions-Policy']) {
+  if (!headers.includes(requiredHeader)) {
+    console.error(`_headers is missing required security header: ${requiredHeader}`);
+    process.exit(1);
+  }
+}
 
 const sw = readFileSync(join(dist, 'sw.js'), 'utf8');
 if (!sw.includes('precache') && !sw.includes('workbox')) {
@@ -79,11 +120,20 @@ const artifactFiles = [
   ...required,
   ...assets.map((file) => `assets/${file}`),
 ].sort();
+for (const file of artifactFiles) scanSecrets(join(dist, file), file);
+
+const packageVersion = JSON.parse(readFileSync('package.json', 'utf8')).version;
+const appInfo = readFileSync(join('src', 'lib', 'appInfo.ts'), 'utf8');
+const appVersion = /APP_VERSION\s*=\s*'([^']+)'/.exec(appInfo)?.[1] ?? packageVersion;
+const appBuildLabel = /APP_BUILD_LABEL\s*=\s*'([^']+)'/.exec(appInfo)?.[1] ?? '';
+const buildId = process.env.GITHUB_SHA || process.env.COMMIT_REF || process.env.BUILD_ID || 'local';
 
 const artifact = {
-  schemaVersion: 1,
+  schemaVersion: 2,
   generatedAt: new Date().toISOString(),
-  appVersion: JSON.parse(readFileSync('package.json', 'utf8')).version,
+  buildId,
+  appVersion,
+  appBuildLabel,
   entry: 'index.html',
   serviceWorker: 'sw.js',
   counts: { js: js.length, css: css.length, assets: artifactFiles.length },
